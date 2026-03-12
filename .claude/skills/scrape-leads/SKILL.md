@@ -1,75 +1,62 @@
 ---
 name: scrape-leads
-description: Scraper de Google Maps para generar leads de casas de repuestos automotor en AMBA. Ejecuta el scraper, muestra progreso, y al terminar importa los resultados al panel admin (Nuevos Clientes). Usar cuando el usuario quiera buscar nuevos clientes potenciales.
+description: >
+  Atajo para ejecutar el scraper de Google Maps ya configurado para Santana Hnos.
+  Usa el mismo motor que /google-maps-scraper pero con la config de repuestos automotor AMBA.
 disable-model-invocation: true
-argument-hint: [zona|todas] [--headless] [--resume]
+argument-hint: [zona|todas] [--headless] [--resume] [--enrich]
 allowed-tools: Bash, Read, Grep, Glob, TaskOutput, TaskStop
 ---
 
 # Scraper de Leads - Santana Hnos.
 
-Ejecutar el scraper de Google Maps para generar leads de casas de repuestos automotor en el AMBA.
+Ejecutar el scraper de Google Maps ya configurado para repuestos automotor en AMBA.
+Para crear un scraper nuevo para otro rubro/zona, usar `/google-maps-scraper`.
 
 ## Argumentos
 
-- `$0` = Zona a scrapear. Opciones: `"Zona Oeste"`, `"Zona Sur"`, `"Zona Norte"`, `"CABA"`, `todas`. Default: `"Zona Oeste"`
-- Si se incluye `--headless`: ejecutar sin ventana visible
-- Si se incluye `--resume`: continuar desde el ultimo checkpoint
+- `$0` = Zona a scrapear. Opciones: `"Zona Oeste"`, `"Zona Sur"`, `"Zona Norte"`, `"CABA"`, `todas`. Default: `todas`
+- `--headless`: ejecutar sin ventana visible (default)
+- `--no-headless`: con ventana visible (debug)
+- `--resume`: continuar desde el ultimo checkpoint
+- `--enrich`: despues del scraping, ejecutar el enricher de emails
 
 ## Instrucciones
 
-1. **Validar entorno**: Verificar que existen las dependencias (playwright, pandas, openpyxl, beautifulsoup4). Si no estan instaladas, instalarlas con `python -m pip install playwright pandas openpyxl beautifulsoup4` y luego `playwright install chromium`.
+1. **Validar entorno**: Verificar dependencias con `python -c "import playwright; import pandas"`. Si faltan: `python -m pip install playwright pandas openpyxl beautifulsoup4 && playwright install chromium`.
 
-2. **Preparar comando**: Ir al directorio del scraper y construir el comando:
-   ```
+2. **Ejecutar scraper en background**:
+   ```bash
    cd scraper
-   python main.py [opciones]
+   python main.py [--zona "Zona X"] [--headless] [--resume]
    ```
+   Lanzar con `run_in_background: true` y timeout 600000ms.
 
-   Mapear argumentos:
-   - Si `$0` es "todas" o no se especifica zona: no pasar `--zona`
-   - Si `$0` es una zona especifica: pasar `--zona "$0"`
-   - Si se pidio headless: agregar `--headless`
-   - Si se pidio resume: agregar `--resume`
-   - Si NO se pidio headless: agregar `--no-headless` (para que el usuario vea el navegador)
+3. **Monitorear progreso**: Cada 2-3 minutos, usar TaskOutput con `block: false`.
 
-3. **Ejecutar en background**: Lanzar el scraper con `run_in_background: true` y timeout largo (600000ms).
+4. **Al terminar el scraping**:
+   - Si se pidio `--enrich`: ejecutar `python enrich_leads.py` en background
+   - Limpiar emails falsos (sentry, wixpress, ejemplo, etc.)
+   - Mostrar resumen final
 
-4. **Monitorear progreso**: Cada 2-3 minutos, usar TaskOutput con `block: false` para verificar el estado y reportar al usuario cuantos resultados lleva.
+5. **Exportar**: Los archivos se generan en `scraper/data/output/`
 
-5. **Al terminar**:
-   - Mostrar el resumen final (total encontrados, desglose por zona, datos de contacto)
-   - Verificar que se generaron los archivos en `scraper/data/output/`
-   - Informar al usuario que puede importar el JSON desde el panel admin: **Nuevos Clientes > Importar JSON**
-   - Indicar la ruta exacta del archivo JSON generado
-
-6. **Si hay errores**:
-   - Si falla por timeout de Google Maps: sugerir `--no-headless` para debug
-   - Si hay CAPTCHA: informar al usuario que Google detecto actividad automatizada, esperar e intentar con `--resume`
-   - Si falla por dependencias: instalarlas automaticamente
+6. **Detener entre zonas**: Crear `scraper/data/STOP` para frenar despues de la zona actual.
 
 ## Zonas disponibles
 
-| Zona | Localidades | Queries estimadas |
-|------|------------|-------------------|
-| Zona Oeste | 25 (Ituzaingo, Moron, Castelar, Haedo, Merlo...) | 125 |
-| Zona Sur | 25 (Lanus, Avellaneda, Quilmes, Lomas de Zamora...) | 125 |
-| Zona Norte | 28 (San Isidro, Tigre, Vicente Lopez, San Fernando...) | 140 |
-| CABA | 27 (Liniers, Mataderos, Flores, Caballito...) | 135 |
-| **Todas** | **105** | **525** |
+| Zona | Localidades | Queries |
+|------|------------|---------|
+| Zona Oeste | 25 | 125 |
+| Zona Sur | 24 | 120 |
+| Zona Norte | 28 | 140 |
+| CABA | 27 | 135 |
+| **Todas** | **104** | **520** |
 
 ## Archivos generados
 
-Los resultados se guardan en `scraper/data/output/`:
-- `repuestos_amba_YYYYMMDD.xlsx` - Excel con 6 hojas
-- `repuestos_amba_YYYYMMDD.csv` - CSV con separador ;
-- `repuestos_amba_YYYYMMDD.json` - JSON para importar en admin
-
-## Ejemplo de uso
-
-```
-/scrape-leads "Zona Oeste"
-/scrape-leads todas --headless
-/scrape-leads "Zona Sur" --resume
-/scrape-leads
-```
+- `scraper/data/output/repuestos_amba_YYYYMMDD.xlsx` - Excel con 6 hojas
+- `scraper/data/output/repuestos_amba_YYYYMMDD.csv` - CSV separador ;
+- `scraper/data/output/repuestos_amba_YYYYMMDD.json` - JSON estructurado
+- `scraper/data/output/repuestos_amba_enriched.json` - JSON con emails
+- `scraper/data/checkpoint.json` - Checkpoint (para --resume)
