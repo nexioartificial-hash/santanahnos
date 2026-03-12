@@ -187,6 +187,13 @@ function confirmDelete(callback) {
 }
 
 
+function closeDeleteModal() {
+    var modal = document.getElementById('delete-modal');
+    if (!modal) return;
+    modal.classList.remove('opacity-100');
+    setTimeout(function () { modal.classList.add('hidden'); }, 200);
+}
+
 /* ---------------------------------------------------------------
    TABLE SORTING
    --------------------------------------------------------------- */

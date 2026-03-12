@@ -457,7 +457,7 @@
     <!-- ════════════════════════════════════════════════════════ -->
     <div id="delete-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
         <!-- Overlay -->
-        <div class="absolute inset-0 bg-black/50 modal-overlay-enter" data-action="close-delete-modal"></div>
+        <div class="absolute inset-0 bg-black/50 modal-overlay-enter" onclick="closeDeleteModal()"></div>
         <!-- Card -->
         <div class="relative bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 modal-card-enter">
             <!-- Warning icon -->
@@ -469,7 +469,7 @@
             <h3 class="text-lg font-semibold text-gray-800 text-center mb-1">¿Estás seguro de que querés eliminar este registro?</h3>
             <p class="text-sm text-gray-500 text-center mb-6">Esta acción no se puede deshacer.</p>
             <div class="flex gap-3">
-                <button data-action="close-delete-modal" class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">Cancelar</button>
+                <button onclick="closeDeleteModal()" class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">Cancelar</button>
                 <button id="delete-confirm-btn" class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">Eliminar</button>
             </div>
         </div>
@@ -480,13 +480,13 @@
     <!-- ════════════════════════════════════════════════════════ -->
     <div id="modal-container" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
         <!-- Overlay -->
-        <div class="absolute inset-0 bg-black/50 modal-overlay-enter" data-action="close-modal"></div>
+        <div class="absolute inset-0 bg-black/50 modal-overlay-enter" onclick="closeModal()"></div>
         <!-- Card -->
         <div id="modal-card" class="relative bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col modal-card-enter">
             <!-- Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
                 <h3 id="modal-title" class="text-lg font-semibold text-gray-800">Modal</h3>
-                <button data-action="close-modal" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                <button onclick="closeModal()" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
                     </svg>

@@ -420,69 +420,114 @@ function _generateAdminPDF(products) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
         const pageW = doc.internal.pageSize.getWidth();
+        const pageH = doc.internal.pageSize.getHeight();
 
-        // Header with logo
+        // Header background (dark green)
+        doc.setFillColor(13, 51, 24);
+        doc.rect(0, 0, pageW, 46, 'F');
+
+        // Gold accent line
+        doc.setFillColor(193, 154, 61);
+        doc.rect(0, 46, pageW, 1.5, 'F');
+
+        // Logo
         if (typeof LOGO_BASE64 !== 'undefined') {
-            doc.addImage(LOGO_BASE64, 'PNG', 14, 10, 30, 30);
+            doc.addImage(LOGO_BASE64, 'PNG', 14, 5, 28, 28);
         }
-        doc.setFontSize(20);
+
+        // Company name
+        doc.setTextColor(212, 216, 219);
+        doc.setFontSize(28);
         doc.setFont('helvetica', 'bold');
-        doc.setTextColor(26, 92, 42);
-        doc.text('SANTANA HNOS.', 50, 22);
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(100);
-        doc.text('Fabrica de Rotulas y Extremos de Direccion', 50, 29);
-        doc.text('Av. Int. Carlos Ratti 3744, Ituzaingo | Tel: 11 5051-5118', 50, 35);
+        doc.text('SANTANA HNOS.', pageW / 2 + 10, 18, { align: 'center' });
 
-        const today = new Date();
+        // Subtitle
+        doc.setFontSize(11);
+        doc.setTextColor(193, 154, 61);
+        doc.text('FABRICA DE ROTULAS Y EXTREMOS DE DIRECCION', pageW / 2 + 10, 26, { align: 'center' });
+
+        // Contact info
+        doc.setFontSize(8);
+        doc.setTextColor(180, 180, 180);
+        doc.text('Av. Int. Carlos Ratti 3744, Ituzaingo, Buenos Aires  |  Tel: 11 5051-5118  |  santanahnos1@gmail.com', pageW / 2, 38, { align: 'center' });
+
+        // List title
+        doc.setFontSize(14);
+        doc.setTextColor(13, 51, 24);
+        doc.setFont('helvetica', 'bold');
+        doc.text('LISTA DE PRECIOS - Lista 96', pageW / 2, 56, { align: 'center' });
+
+        // Date
         doc.setFontSize(9);
-        doc.text('Lista de Precios - ' + today.toLocaleDateString('es-AR'), pageW - 14, 22, { align: 'right' });
-
-        doc.setDrawColor(26, 92, 42);
-        doc.setLineWidth(0.5);
-        doc.line(14, 44, pageW - 14, 44);
+        doc.setTextColor(100, 100, 100);
+        doc.setFont('helvetica', 'normal');
+        const now = new Date();
+        doc.text('Fecha: ' + now.toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' }), pageW / 2, 62, { align: 'center' });
 
         // Group by brand
         const byBrand = {};
         products.forEach(p => {
-            if (!byBrand[p.brand]) byBrand[p.brand] = [];
-            byBrand[p.brand].push(p);
+            const b = (p.brand || '').toUpperCase();
+            if (!byBrand[b]) byBrand[b] = [];
+            byBrand[b].push(p);
         });
 
-        let startY = 50;
-        const brandOrder = ['Ford', 'Volkswagen', 'Chevrolet', 'Renault', 'Peugeot', 'Fiat', 'Toyota', 'Chery', 'Mercedes-Benz'];
+        const brandOrder = ['FORD', 'VOLKSWAGEN', 'CHEVROLET', 'RENAULT', 'PEUGEOT', 'FIAT', 'TOYOTA', 'CHERY', 'MERCEDES-BENZ'];
+        const brandNames = { 'FORD': 'FORD', 'VOLKSWAGEN': 'VOLKSWAGEN', 'CHEVROLET': 'CHEVROLET', 'RENAULT': 'RENAULT', 'PEUGEOT': 'PEUGEOT / CITROEN', 'FIAT': 'FIAT', 'TOYOTA': 'TOYOTA', 'CHERY': 'CHERY', 'MERCEDES-BENZ': 'MERCEDES-BENZ' };
         const sortedBrands = brandOrder.filter(b => byBrand[b]);
         Object.keys(byBrand).forEach(b => { if (!sortedBrands.includes(b)) sortedBrands.push(b); });
 
+        let startY = 68;
+
         sortedBrands.forEach(brand => {
-            const rows = byBrand[brand].map(p => [p.id, p.name, '$' + Number(p.price).toLocaleString('es-AR', {minimumFractionDigits: 2})]);
+            const items = byBrand[brand];
+            const rows = items.map(p => [
+                p.id,
+                p.name,
+                '$' + Number(p.price).toLocaleString('es-AR', { minimumFractionDigits: 2 })
+            ]);
 
             doc.autoTable({
                 startY: startY,
-                head: [[{ content: brand.toUpperCase(), colSpan: 3, styles: { fillColor: [26, 92, 42], textColor: 255, fontSize: 10, fontStyle: 'bold' } }]],
+                head: [[{ content: (brandNames[brand] || brand) + ' (' + items.length + ' productos)', colSpan: 3, styles: { fillColor: [13, 51, 24], textColor: [193, 154, 61], fontStyle: 'bold', fontSize: 10, halign: 'left' } }],
+                       ['Codigo', 'Descripcion', 'Precio']],
                 body: rows,
-                columns: [
-                    { header: 'Codigo', dataKey: 0 },
-                    { header: 'Descripcion', dataKey: 1 },
-                    { header: 'Precio', dataKey: 2 }
-                ],
                 theme: 'grid',
-                styles: { fontSize: 8, cellPadding: 2 },
-                headStyles: { fillColor: [26, 92, 42] },
-                columnStyles: { 0: { cellWidth: 22 }, 2: { cellWidth: 28, halign: 'right' } },
-                margin: { left: 14, right: 14 },
-                didDrawPage: (data) => {
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2,
+                    lineColor: [220, 220, 220],
+                    lineWidth: 0.2,
+                },
+                headStyles: {
+                    fillColor: [240, 240, 240],
+                    textColor: [50, 50, 50],
+                    fontStyle: 'bold',
+                    fontSize: 8,
+                },
+                columnStyles: {
+                    0: { cellWidth: 25, fontStyle: 'bold', textColor: [80, 80, 80] },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 30, halign: 'right', fontStyle: 'bold', textColor: [13, 51, 24] },
+                },
+                alternateRowStyles: {
+                    fillColor: [248, 249, 250],
+                },
+                margin: { left: 15, right: 15 },
+                didDrawPage: function(data) {
+                    // Footer on each page
+                    doc.setFillColor(13, 51, 24);
+                    doc.rect(0, pageH - 12, pageW, 12, 'F');
                     doc.setFontSize(7);
-                    doc.setTextColor(150);
-                    doc.text('Santana Hnos. - Lista de Precios', 14, doc.internal.pageSize.getHeight() - 8);
-                    doc.text('Pag. ' + doc.internal.getNumberOfPages(), pageW - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' });
+                    doc.setTextColor(180, 180, 180);
+                    doc.text('SANTANA HNOS. - Precios sujetos a modificacion sin previo aviso - IVA no incluido', pageW / 2, pageH - 6, { align: 'center' });
+                    doc.text('Pag. ' + doc.internal.getCurrentPageInfo().pageNumber, pageW - 15, pageH - 6, { align: 'right' });
                 }
             });
             startY = doc.lastAutoTable.finalY + 6;
         });
 
-        doc.save('lista_precios_santana_hnos.pdf');
+        doc.save('Santana_Hnos_Lista_Precios.pdf');
         showToast('PDF descargado');
     } catch (e) {
         showToast('Error al generar PDF', 'error');
