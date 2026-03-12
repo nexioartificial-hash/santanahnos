@@ -1407,7 +1407,7 @@ function renderLeads() {
     const stats = {
         total: allLeads.length,
         conTelefono: allLeads.filter(l => l.telefono).length,
-        conWhatsapp: allLeads.filter(l => l.whatsapp || l.celular).length,
+        conEmail: allLeads.filter(l => l.email).length,
         conWeb: allLeads.filter(l => l.sitio_web).length,
         nuevo: allLeads.filter(l => l.estado === 'nuevo').length,
         contactado: allLeads.filter(l => l.estado === 'contactado').length,
@@ -1433,7 +1433,7 @@ function renderLeads() {
             <p class="text-xl font-bold text-green-600">${stats.conTelefono}</p><p class="text-xs text-gray-500">Con Teléfono</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-3 text-center">
-            <p class="text-xl font-bold text-blue-600">${stats.conWhatsapp}</p><p class="text-xs text-gray-500">Con WhatsApp</p>
+            <p class="text-xl font-bold text-blue-600">${stats.conEmail}</p><p class="text-xs text-gray-500">Con Email</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-3 text-center">
             <p class="text-xl font-bold text-purple-600">${stats.conWeb}</p><p class="text-xs text-gray-500">Con Web</p>
