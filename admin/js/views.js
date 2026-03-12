@@ -5,7 +5,7 @@
 
 // ── View State ──
 const viewState = {
-    productos: { page: 1, search: '', categoryFilter: '', stockFilter: '', sortCol: 'id', sortDir: 'asc' },
+    productos: { page: 1, search: '', categoryFilter: '', brandFilter: '', stockFilter: '', sortCol: 'id', sortDir: 'asc' },
     pedidos: { page: 1, search: '', statusFilter: '', sortCol: 'date', sortDir: 'desc' },
     clientes: { page: 1, search: '', typeFilter: '', sortCol: 'name', sortDir: 'asc' },
     produccion: { page: 1, search: '' },
@@ -160,11 +160,17 @@ function factoryIcon() { return '<svg class="w-7 h-7" fill="none" stroke="curren
    ================================================================ */
 function renderProductos() {
     let data = getData('sh_products');
+    const allData = data;
     const st = viewState.productos;
+
+    // Get unique categories and brands from actual data
+    const categories = [...new Set(allData.map(p => p.category))].filter(Boolean).sort();
+    const brands = [...new Set(allData.map(p => p.brand))].filter(Boolean).sort();
 
     // Filter
     if (st.search) data = data.filter(p => (p.name + p.id + p.brand + p.model).toLowerCase().includes(st.search.toLowerCase()));
     if (st.categoryFilter) data = data.filter(p => p.category === st.categoryFilter);
+    if (st.brandFilter) data = data.filter(p => p.brand === st.brandFilter);
     if (st.stockFilter === 'ok') data = data.filter(p => p.stock > p.minStock);
     else if (st.stockFilter === 'low') data = data.filter(p => p.stock > 0 && p.stock <= p.minStock);
     else if (st.stockFilter === 'out') data = data.filter(p => p.stock === 0);
@@ -178,19 +184,24 @@ function renderProductos() {
     mc().innerHTML = `
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h1 class="text-2xl font-heading font-bold text-gray-800">Productos / Stock</h1>
-        <div class="flex gap-2">
-            <button onclick="exportProductos()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Exportar CSV</button>
+        <div class="flex gap-2 flex-wrap">
+            <button onclick="showPriceIncrease()" class="px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600">% Aumento</button>
+            <button onclick="showDownloadOptions()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Descargar Lista</button>
             <button onclick="newProduct()" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-green-800">+ Nuevo Producto</button>
         </div>
     </div>
 
     <!-- Filters -->
-    <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-3">
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-3 flex-wrap">
         <input type="text" placeholder="Buscar producto..." value="${st.search}" oninput="viewState.productos.search=this.value;viewState.productos.page=1;renderProductos()"
-            class="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary">
+            class="flex-1 min-w-[200px] border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary">
         <select onchange="viewState.productos.categoryFilter=this.value;viewState.productos.page=1;renderProductos()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary">
-            <option value="">Todas las categorías</option>
-            ${['Rótula','Extremo','Terminal','Brazo','Buje','Kit'].map(c => `<option value="${c}" ${st.categoryFilter === c ? 'selected' : ''}>${c}</option>`).join('')}
+            <option value="">Todas las categorias</option>
+            ${categories.map(c => `<option value="${c}" ${st.categoryFilter === c ? 'selected' : ''}>${c}</option>`).join('')}
+        </select>
+        <select onchange="viewState.productos.brandFilter=this.value;viewState.productos.page=1;renderProductos()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary">
+            <option value="">Todas las marcas</option>
+            ${brands.map(b => `<option value="${b}" ${st.brandFilter === b ? 'selected' : ''}>${b}</option>`).join('')}
         </select>
         <select onchange="viewState.productos.stockFilter=this.value;viewState.productos.page=1;renderProductos()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary">
             <option value="" ${!st.stockFilter ? 'selected' : ''}>Todo el stock</option>
@@ -348,14 +359,181 @@ function deleteProduct(id) {
     });
 }
 
-function exportProductos() {
+function showDownloadOptions() {
+    openModal('Descargar Lista de Precios', `
+        <p class="text-sm text-gray-600 mb-4">Selecciona el formato de descarga:</p>
+        <div class="flex flex-col gap-3">
+            <button onclick="downloadListaPDF();closeModal()" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center font-bold text-sm">PDF</div>
+                <div class="text-left">
+                    <p class="font-medium text-gray-800">Lista de Precios PDF</p>
+                    <p class="text-xs text-gray-500">Con logo, formato profesional, agrupado por marca</p>
+                </div>
+            </button>
+            <button onclick="downloadListaCSV();closeModal()" class="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                <div class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center font-bold text-sm">CSV</div>
+                <div class="text-left">
+                    <p class="font-medium text-gray-800">Lista de Precios CSV</p>
+                    <p class="text-xs text-gray-500">Para Excel, con todas las columnas</p>
+                </div>
+            </button>
+        </div>
+    `, `<button onclick="closeModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Cerrar</button>`);
+}
+
+function downloadListaCSV() {
     const data = getData('sh_products');
     exportCSV(data, [
-        { key: 'id', label: 'Código' }, { key: 'name', label: 'Producto' }, { key: 'category', label: 'Categoría' },
+        { key: 'id', label: 'Codigo' }, { key: 'name', label: 'Producto' }, { key: 'category', label: 'Categoria' },
         { key: 'brand', label: 'Marca' }, { key: 'model', label: 'Modelo' }, { key: 'stock', label: 'Stock' },
-        { key: 'minStock', label: 'Stock Mín.' }, { key: 'price', label: 'Precio' }, { key: 'status', label: 'Estado' }
-    ], 'productos_santana_hnos.csv');
-    showToast('CSV exportado');
+        { key: 'minStock', label: 'Stock Min.' }, { key: 'price', label: 'Precio' }, { key: 'status', label: 'Estado' }
+    ], 'lista_precios_santana_hnos.csv');
+    showToast('CSV descargado');
+}
+
+function downloadListaPDF() {
+    // Uses the same generatePDF from the homepage if available, otherwise basic jsPDF
+    const products = getData('sh_products').filter(p => p.status === 'active');
+    if (typeof window.jspdf === 'undefined') {
+        // Load jsPDF dynamically
+        const s1 = document.createElement('script');
+        s1.src = '../lib/jspdf.umd.min.js';
+        s1.onload = () => {
+            const s2 = document.createElement('script');
+            s2.src = '../lib/jspdf.plugin.autotable.min.js';
+            s2.onload = () => {
+                const s3 = document.createElement('script');
+                s3.src = '../lib/logo-base64.js';
+                s3.onload = () => _generateAdminPDF(products);
+                document.head.appendChild(s3);
+            };
+            document.head.appendChild(s2);
+        };
+        document.head.appendChild(s1);
+    } else {
+        _generateAdminPDF(products);
+    }
+}
+
+function _generateAdminPDF(products) {
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const pageW = doc.internal.pageSize.getWidth();
+
+        // Header with logo
+        if (typeof LOGO_BASE64 !== 'undefined') {
+            doc.addImage(LOGO_BASE64, 'PNG', 14, 10, 30, 30);
+        }
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(26, 92, 42);
+        doc.text('SANTANA HNOS.', 50, 22);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(100);
+        doc.text('Fabrica de Rotulas y Extremos de Direccion', 50, 29);
+        doc.text('Av. Int. Carlos Ratti 3744, Ituzaingo | Tel: 11 5051-5118', 50, 35);
+
+        const today = new Date();
+        doc.setFontSize(9);
+        doc.text('Lista de Precios - ' + today.toLocaleDateString('es-AR'), pageW - 14, 22, { align: 'right' });
+
+        doc.setDrawColor(26, 92, 42);
+        doc.setLineWidth(0.5);
+        doc.line(14, 44, pageW - 14, 44);
+
+        // Group by brand
+        const byBrand = {};
+        products.forEach(p => {
+            if (!byBrand[p.brand]) byBrand[p.brand] = [];
+            byBrand[p.brand].push(p);
+        });
+
+        let startY = 50;
+        const brandOrder = ['Ford', 'Volkswagen', 'Chevrolet', 'Renault', 'Peugeot', 'Fiat', 'Toyota', 'Chery', 'Mercedes-Benz'];
+        const sortedBrands = brandOrder.filter(b => byBrand[b]);
+        Object.keys(byBrand).forEach(b => { if (!sortedBrands.includes(b)) sortedBrands.push(b); });
+
+        sortedBrands.forEach(brand => {
+            const rows = byBrand[brand].map(p => [p.id, p.name, '$' + Number(p.price).toLocaleString('es-AR', {minimumFractionDigits: 2})]);
+
+            doc.autoTable({
+                startY: startY,
+                head: [[{ content: brand.toUpperCase(), colSpan: 3, styles: { fillColor: [26, 92, 42], textColor: 255, fontSize: 10, fontStyle: 'bold' } }]],
+                body: rows,
+                columns: [
+                    { header: 'Codigo', dataKey: 0 },
+                    { header: 'Descripcion', dataKey: 1 },
+                    { header: 'Precio', dataKey: 2 }
+                ],
+                theme: 'grid',
+                styles: { fontSize: 8, cellPadding: 2 },
+                headStyles: { fillColor: [26, 92, 42] },
+                columnStyles: { 0: { cellWidth: 22 }, 2: { cellWidth: 28, halign: 'right' } },
+                margin: { left: 14, right: 14 },
+                didDrawPage: (data) => {
+                    doc.setFontSize(7);
+                    doc.setTextColor(150);
+                    doc.text('Santana Hnos. - Lista de Precios', 14, doc.internal.pageSize.getHeight() - 8);
+                    doc.text('Pag. ' + doc.internal.getNumberOfPages(), pageW - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' });
+                }
+            });
+            startY = doc.lastAutoTable.finalY + 6;
+        });
+
+        doc.save('lista_precios_santana_hnos.pdf');
+        showToast('PDF descargado');
+    } catch (e) {
+        showToast('Error al generar PDF', 'error');
+        console.error(e);
+    }
+}
+
+function showPriceIncrease() {
+    openModal('Aumento Porcentual de Precios', `
+        <p class="text-sm text-gray-600 mb-4">Ingresa el porcentaje de aumento a aplicar sobre <strong>todos los productos</strong>.</p>
+        <div class="flex items-center gap-3 mb-4">
+            <input type="number" id="price-increase-pct" min="0.1" max="500" step="0.1" value="10" placeholder="Ej: 10"
+                class="w-32 border border-gray-200 rounded-lg px-4 py-3 text-lg font-bold text-center focus:outline-none focus:border-primary">
+            <span class="text-2xl font-bold text-gray-500">%</span>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800">
+            <strong>Atencion:</strong> Esto modificara los precios en toda la lista, incluyendo lo que se muestra en la pagina web publica y las descargas de PDF/CSV.
+        </div>
+    `, `
+        <button onclick="closeModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Cancelar</button>
+        <button onclick="applyPriceIncrease()" class="px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600">Aplicar Aumento</button>
+    `);
+}
+
+function applyPriceIncrease() {
+    const pct = parseFloat(document.getElementById('price-increase-pct').value);
+    if (!pct || pct <= 0 || pct > 500) {
+        showToast('Porcentaje invalido', 'error');
+        return;
+    }
+    const factor = 1 + (pct / 100);
+    const products = getData('sh_products');
+    products.forEach(p => {
+        p.price = Math.round(p.price * factor * 100) / 100;
+    });
+    setData('sh_products', products);
+
+    // Also update the products.json data used by the homepage catalog
+    try {
+        const catalogProducts = products.map(p => ({
+            c: p.id,
+            d: p.name,
+            b: p.brand.toUpperCase() === 'MERCEDES-BENZ' ? 'MERCEDES-BENZ' : p.brand.toUpperCase(),
+            p: p.price
+        }));
+        localStorage.setItem('sh_catalog_products', JSON.stringify(catalogProducts));
+    } catch(e) {}
+
+    closeModal();
+    showToast('Aumento del ' + pct + '% aplicado a ' + products.length + ' productos');
+    renderProductos();
 }
 
 /* ================================================================

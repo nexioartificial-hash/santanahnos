@@ -1123,6 +1123,11 @@
         // =============================================
         const PRODUCTS = [];
         (function loadProducts() {
+            // Check if admin applied a price update (stored in localStorage)
+            const updated = localStorage.getItem('sh_catalog_products');
+            if (updated) {
+                try { PRODUCTS.push(...JSON.parse(updated)); return; } catch(e) {}
+            }
             fetch('products.json')
                 .then(r => r.json())
                 .then(data => { PRODUCTS.push(...data); })
