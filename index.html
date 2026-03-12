@@ -302,6 +302,7 @@
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#nosotros" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Nosotros</a>
                     <a href="#productos" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Productos</a>
+                    <a href="#catalogo" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Catálogo</a>
                     <a href="#por-que-elegirnos" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Por Qué Elegirnos</a>
                     <a href="#marcas" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Marcas</a>
                     <a href="#contacto" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Contacto</a>
@@ -327,6 +328,7 @@
             <div class="px-4 py-4 space-y-3">
                 <a href="#nosotros" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Nosotros</a>
                 <a href="#productos" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Productos</a>
+                <a href="#catalogo" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Catálogo</a>
                 <a href="#por-que-elegirnos" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Por Qué Elegirnos</a>
                 <a href="#marcas" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Marcas</a>
                 <a href="#contacto" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Contacto</a>
@@ -357,7 +359,7 @@
                     Desde 1990, producimos y distribuimos rótulas y extremos de dirección y suspensión con calidad <span class="text-white font-medium">100% nacional</span>.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 fade-in-up" style="transition-delay: 0.3s;">
-                    <a href="#productos" class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-primary-darker font-heading font-bold px-8 py-4 rounded-lg text-lg transition-all hover:shadow-xl hover:shadow-gold/20 hover:-translate-y-0.5">
+                    <a href="#catalogo" class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-primary-darker font-heading font-bold px-8 py-4 rounded-lg text-lg transition-all hover:shadow-xl hover:shadow-gold/20 hover:-translate-y-0.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                         Consultá nuestro catálogo
                     </a>
@@ -512,6 +514,83 @@
                     <h3 class="font-heading font-bold text-xl text-white mb-3">Kits de Reparación</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Kits completos con todos los componentes necesarios para reparar sistemas de dirección y suspensión de forma integral.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo / Buscador de Precios -->
+    <section id="catalogo" class="bg-primary-darker py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-metallic mb-6">Consultá Nuestro Catálogo</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">Buscá por marca, modelo o tipo de pieza para ver precios actualizados. También podés descargar la lista completa en PDF.</p>
+            </div>
+
+            <!-- Search + Filter -->
+            <div class="max-w-4xl mx-auto mb-8">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="relative flex-1">
+                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <input type="text" id="catalog-search" placeholder="Ej: rotula falcon, extremo gol, palio..." class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold text-lg" autocomplete="off">
+                    </div>
+                    <div class="relative sm:w-56" id="brand-dropdown">
+                        <button type="button" id="brand-toggle" class="w-full flex items-center justify-between gap-2 px-4 py-4 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-gold cursor-pointer text-left">
+                            <span id="brand-label">Todas las marcas</span>
+                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform" id="brand-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <input type="hidden" id="catalog-brand" value="">
+                        <div id="brand-options" class="absolute z-50 top-full left-0 right-0 mt-2 rounded-xl bg-[#1a3d24] border border-white/20 shadow-2xl overflow-hidden hidden max-h-72 overflow-y-auto">
+                            <div class="brand-opt px-4 py-3 text-white hover:bg-gold/20 cursor-pointer transition-colors border-b border-white/10 font-medium" data-value="">Todas las marcas</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="FORD">Ford</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="VOLKSWAGEN">Volkswagen</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="CHEVROLET">Chevrolet</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="RENAULT">Renault</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="PEUGEOT">Peugeot / Citro&#235;n</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="FIAT">Fiat</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="TOYOTA">Toyota</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="CHERY">Chery</div>
+                            <div class="brand-opt px-4 py-3 text-gray-200 hover:bg-gold/20 hover:text-white cursor-pointer transition-colors" data-value="MERCEDES-BENZ">Mercedes-Benz</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="catalog-results" class="max-w-4xl mx-auto hidden">
+                <div class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
+                    <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-white/5 text-xs font-heading font-bold text-gold uppercase tracking-wider">
+                        <div class="col-span-2">Código</div>
+                        <div class="col-span-5">Descripción</div>
+                        <div class="col-span-2">Marca</div>
+                        <div class="col-span-3 text-right">Precio</div>
+                    </div>
+                    <div id="catalog-list" class="divide-y divide-white/5 max-h-[480px] overflow-y-auto"></div>
+                </div>
+                <p id="catalog-count" class="text-gray-400 text-sm mt-3 text-center"></p>
+            </div>
+
+            <!-- No results -->
+            <div id="catalog-empty" class="max-w-4xl mx-auto hidden text-center py-8">
+                <p class="text-gray-400 text-lg">No se encontraron productos. Probá con otro término.</p>
+            </div>
+
+            <!-- Initial state -->
+            <div id="catalog-initial" class="max-w-4xl mx-auto text-center py-8">
+                <p class="text-gray-400 text-lg mb-2">Escribí al menos 2 letras para buscar</p>
+                <p class="text-gray-500 text-sm">330 productos disponibles en 9 marcas</p>
+            </div>
+
+            <!-- Download PDF button -->
+            <div class="text-center mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="generatePDF()" class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-primary-darker font-heading font-bold px-8 py-4 rounded-lg text-lg transition-all hover:shadow-xl hover:shadow-gold/20 hover:-translate-y-0.5 cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Descargar Lista Completa PDF
+                </button>
+                <a href="https://wa.me/5491150515118?text=Hola%2C%20quiero%20consultar%20por%20un%20producto%20del%20cat%C3%A1logo.%20%C2%A1Gracias!" target="_blank" class="inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-gold text-white hover:text-gold font-heading font-semibold px-8 py-4 rounded-lg text-lg transition-all hover:-translate-y-0.5">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Consultar por WhatsApp
+                </a>
             </div>
         </div>
     </section>
@@ -894,6 +973,7 @@
                         <li><a href="#hero" class="text-gray-400 hover:text-gold transition-colors text-sm">Inicio</a></li>
                         <li><a href="#nosotros" class="text-gray-400 hover:text-gold transition-colors text-sm">Quiénes Somos</a></li>
                         <li><a href="#productos" class="text-gray-400 hover:text-gold transition-colors text-sm">Productos</a></li>
+                        <li><a href="#catalogo" class="text-gray-400 hover:text-gold transition-colors text-sm">Catálogo y Precios</a></li>
                         <li><a href="#por-que-elegirnos" class="text-gray-400 hover:text-gold transition-colors text-sm">Por Qué Elegirnos</a></li>
                         <li><a href="#marcas" class="text-gray-400 hover:text-gold transition-colors text-sm">Marcas</a></li>
                         <li><a href="#contacto" class="text-gray-400 hover:text-gold transition-colors text-sm">Contacto</a></li>
@@ -942,6 +1022,10 @@
             Escribinos
         </span>
     </a>
+
+    <script src="lib/logo-base64.js"></script>
+    <script src="lib/jspdf.umd.min.js"></script>
+    <script src="lib/jspdf.plugin.autotable.min.js"></script>
 
     <script>
         // Duplicate marquee items for seamless loop
@@ -1043,6 +1127,234 @@
                 hero.style.transform = `translateY(${scrolled * 0.15}px)`;
             }
         });
+
+        // =============================================
+        // Catálogo - Buscador de Precios y PDF
+        // =============================================
+        const PRODUCTS = [];
+        (function loadProducts() {
+            fetch('products.json')
+                .then(r => r.json())
+                .then(data => { PRODUCTS.push(...data); })
+                .catch(() => {
+                    console.warn('products.json not found');
+                });
+        })();
+
+        const catalogSearch = document.getElementById('catalog-search');
+        const catalogBrand = document.getElementById('catalog-brand');
+        const catalogResults = document.getElementById('catalog-results');
+        const catalogList = document.getElementById('catalog-list');
+        const catalogEmpty = document.getElementById('catalog-empty');
+        const catalogInitial = document.getElementById('catalog-initial');
+        const catalogCount = document.getElementById('catalog-count');
+
+        function formatPrice(n) {
+            return '$' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function normalize(str) {
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        }
+
+        function filterProducts() {
+            const q = normalize(catalogSearch.value.trim());
+            const brand = catalogBrand.value;
+
+            if (q.length < 2 && !brand) {
+                catalogResults.classList.add('hidden');
+                catalogEmpty.classList.add('hidden');
+                catalogInitial.classList.remove('hidden');
+                return;
+            }
+
+            catalogInitial.classList.add('hidden');
+            const terms = q.split(/\s+/).filter(t => t.length > 0);
+
+            const filtered = PRODUCTS.filter(p => {
+                if (brand && p.b !== brand) return false;
+                if (terms.length === 0) return true;
+                const haystack = normalize(p.c + ' ' + p.d + ' ' + p.b);
+                return terms.every(t => haystack.includes(t));
+            });
+
+            if (filtered.length === 0) {
+                catalogResults.classList.add('hidden');
+                catalogEmpty.classList.remove('hidden');
+                return;
+            }
+
+            catalogEmpty.classList.add('hidden');
+            catalogResults.classList.remove('hidden');
+
+            // Render max 100 at a time for performance
+            const show = filtered.slice(0, 100);
+            catalogList.innerHTML = show.map(p =>
+                '<div class="grid grid-cols-12 gap-2 px-4 py-3 hover:bg-white/5 transition-colors">' +
+                    '<div class="col-span-2 text-gray-400 text-sm font-mono">' + p.c + '</div>' +
+                    '<div class="col-span-5 text-white text-sm">' + p.d + '</div>' +
+                    '<div class="col-span-2 text-gray-400 text-sm">' + p.b + '</div>' +
+                    '<div class="col-span-3 text-gold font-bold text-sm text-right">' + formatPrice(p.p) + '</div>' +
+                '</div>'
+            ).join('');
+
+            const suffix = filtered.length > 100 ? ' (mostrando primeros 100)' : '';
+            catalogCount.textContent = filtered.length + ' producto' + (filtered.length !== 1 ? 's' : '') + ' encontrado' + (filtered.length !== 1 ? 's' : '') + suffix;
+        }
+
+        // Custom brand dropdown logic
+        const brandToggle = document.getElementById('brand-toggle');
+        const brandOptions = document.getElementById('brand-options');
+        const brandLabel = document.getElementById('brand-label');
+        const brandArrow = document.getElementById('brand-arrow');
+
+        if (brandToggle) {
+            brandToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isOpen = !brandOptions.classList.contains('hidden');
+                brandOptions.classList.toggle('hidden');
+                brandArrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+            });
+
+            document.querySelectorAll('.brand-opt').forEach(function(opt) {
+                opt.addEventListener('click', function() {
+                    var val = this.dataset.value;
+                    catalogBrand.value = val;
+                    brandLabel.textContent = this.textContent;
+                    brandOptions.classList.add('hidden');
+                    brandArrow.style.transform = '';
+                    // Highlight selected
+                    document.querySelectorAll('.brand-opt').forEach(function(o) { o.classList.remove('bg-gold/10', 'text-gold'); });
+                    this.classList.add('bg-gold/10', 'text-gold');
+                    filterProducts();
+                });
+            });
+
+            // Close on outside click
+            document.addEventListener('click', function() {
+                brandOptions.classList.add('hidden');
+                brandArrow.style.transform = '';
+            });
+        }
+
+        if (catalogSearch) {
+            catalogSearch.addEventListener('input', filterProducts);
+        }
+
+        // PDF generation with jsPDF (loaded via script tags above)
+        function generatePDF() {
+            try {
+                var jsPDF = window.jspdf.jsPDF;
+                var doc = new jsPDF('p', 'mm', 'a4');
+            const pageW = doc.internal.pageSize.getWidth();
+            const pageH = doc.internal.pageSize.getHeight();
+
+            // Header background
+            doc.setFillColor(13, 51, 24);
+            doc.rect(0, 0, pageW, 46, 'F');
+
+            // Gold accent line
+            doc.setFillColor(193, 154, 61);
+            doc.rect(0, 46, pageW, 1.5, 'F');
+
+            // Logo
+            if (typeof LOGO_BASE64 !== 'undefined') {
+                doc.addImage(LOGO_BASE64, 'PNG', 14, 5, 28, 28);
+            }
+
+            // Company name (offset right to accommodate logo)
+            doc.setTextColor(212, 216, 219);
+            doc.setFontSize(28);
+            doc.setFont('helvetica', 'bold');
+            doc.text('SANTANA HNOS.', pageW / 2 + 10, 18, { align: 'center' });
+
+            // Subtitle
+            doc.setFontSize(11);
+            doc.setTextColor(193, 154, 61);
+            doc.text('FABRICA DE ROTULAS Y EXTREMOS DE DIRECCION', pageW / 2 + 10, 26, { align: 'center' });
+
+            // Contact info
+            doc.setFontSize(8);
+            doc.setTextColor(180, 180, 180);
+            doc.text('Av. Int. Carlos Ratti 3744, Ituzaingo, Buenos Aires  |  Tel: 11 5051-5118  |  santanahnos1@gmail.com', pageW / 2, 38, { align: 'center' });
+
+            // List title
+            doc.setFontSize(14);
+            doc.setTextColor(13, 51, 24);
+            doc.setFont('helvetica', 'bold');
+            doc.text('LISTA DE PRECIOS - Lista 96', pageW / 2, 56, { align: 'center' });
+
+            // Date
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            doc.setFont('helvetica', 'normal');
+            const now = new Date();
+            doc.text('Fecha: ' + now.toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' }), pageW / 2, 62, { align: 'center' });
+
+            // Group products by brand
+            const brands = ['FORD', 'VOLKSWAGEN', 'CHEVROLET', 'RENAULT', 'PEUGEOT', 'FIAT', 'TOYOTA', 'CHERY', 'MERCEDES-BENZ'];
+            const brandNames = { 'FORD': 'FORD', 'VOLKSWAGEN': 'VOLKSWAGEN', 'CHEVROLET': 'CHEVROLET', 'RENAULT': 'RENAULT', 'PEUGEOT': 'PEUGEOT / CITROEN', 'FIAT': 'FIAT', 'TOYOTA': 'TOYOTA', 'CHERY': 'CHERY', 'MERCEDES-BENZ': 'MERCEDES-BENZ' };
+
+            let startY = 68;
+
+            brands.forEach(brand => {
+                const items = PRODUCTS.filter(p => p.b === brand);
+                if (items.length === 0) return;
+
+                const rows = items.map(p => [
+                    p.c,
+                    p.d,
+                    formatPrice(p.p)
+                ]);
+
+                doc.autoTable({
+                    startY: startY,
+                    head: [[{ content: brandNames[brand] + ' (' + items.length + ' productos)', colSpan: 3, styles: { fillColor: [13, 51, 24], textColor: [193, 154, 61], fontStyle: 'bold', fontSize: 10, halign: 'left' } }],
+                           ['Codigo', 'Descripcion', 'Precio']],
+                    body: rows,
+                    theme: 'grid',
+                    styles: {
+                        fontSize: 8,
+                        cellPadding: 2,
+                        lineColor: [220, 220, 220],
+                        lineWidth: 0.2,
+                    },
+                    headStyles: {
+                        fillColor: [240, 240, 240],
+                        textColor: [50, 50, 50],
+                        fontStyle: 'bold',
+                        fontSize: 8,
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 25, fontStyle: 'bold', textColor: [80, 80, 80] },
+                        1: { cellWidth: 'auto' },
+                        2: { cellWidth: 30, halign: 'right', fontStyle: 'bold', textColor: [13, 51, 24] },
+                    },
+                    alternateRowStyles: {
+                        fillColor: [248, 249, 250],
+                    },
+                    margin: { left: 15, right: 15 },
+                    didDrawPage: function(data) {
+                        // Footer on each page
+                        doc.setFillColor(13, 51, 24);
+                        doc.rect(0, pageH - 12, pageW, 12, 'F');
+                        doc.setFontSize(7);
+                        doc.setTextColor(180, 180, 180);
+                        doc.text('SANTANA HNOS. - Precios sujetos a modificacion sin previo aviso - IVA no incluido', pageW / 2, pageH - 6, { align: 'center' });
+                        doc.text('Pag. ' + doc.internal.getCurrentPageInfo().pageNumber, pageW - 15, pageH - 6, { align: 'right' });
+                    }
+                });
+
+                startY = doc.lastAutoTable.finalY + 6;
+            });
+
+            // Save
+            doc.save('Santana_Hnos_Lista_Precios.pdf');
+            } catch(err) {
+                console.error('PDF error:', err);
+                alert('Error al generar el PDF: ' + err.message);
+            }
+        }
 
         // Contact form → localStorage integration with admin panel
         const contactForm = document.getElementById('contact-form');
