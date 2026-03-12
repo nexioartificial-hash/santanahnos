@@ -1517,26 +1517,26 @@ function renderLeadsTable() {
 
     <!-- Stats -->
     <div class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-7 gap-3 mb-6">
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center">
-            <p class="text-xl font-bold text-gray-800">${stats.total}</p><p class="text-xs text-gray-500">Total</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center">
+            <p class="text-2xl font-bold text-gray-800">${stats.total}</p><p class="text-xs text-gray-400 mt-1">Total</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center">
-            <p class="text-xl font-bold text-green-600">${stats.conTelefono}</p><p class="text-xs text-gray-500">Con Telefono</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center">
+            <p class="text-2xl font-bold text-gray-700">${stats.conTelefono}</p><p class="text-xs text-gray-400 mt-1">Con Telefono</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center">
-            <p class="text-xl font-bold text-blue-600">${stats.conEmail}</p><p class="text-xs text-gray-500">Con Email</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center">
+            <p class="text-2xl font-bold text-gray-700">${stats.conEmail}</p><p class="text-xs text-gray-400 mt-1">Con Email</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center">
-            <p class="text-xl font-bold text-purple-600">${stats.conWeb}</p><p class="text-xs text-gray-500">Con Web</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center">
+            <p class="text-2xl font-bold text-gray-700">${stats.conWeb}</p><p class="text-xs text-gray-400 mt-1">Con Web</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center border-l-4 border-yellow-400">
-            <p class="text-xl font-bold text-yellow-600">${stats.nuevo}</p><p class="text-xs text-gray-500">Nuevos</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center border-l-4 border-primary">
+            <p class="text-2xl font-bold text-gray-800">${stats.nuevo}</p><p class="text-xs text-gray-400 mt-1">Nuevos</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center border-l-4 border-blue-400">
-            <p class="text-xl font-bold text-blue-600">${stats.contactado}</p><p class="text-xs text-gray-500">Contactados</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center border-l-4 border-gray-400">
+            <p class="text-2xl font-bold text-gray-700">${stats.contactado}</p><p class="text-xs text-gray-400 mt-1">Contactados</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-3 text-center border-l-4 border-green-400">
-            <p class="text-xl font-bold text-green-600">${stats.cliente}</p><p class="text-xs text-gray-500">Clientes</p>
+        <div class="bg-white rounded-xl shadow-md ring-1 ring-gray-100 p-4 text-center border-l-4 border-gray-400">
+            <p class="text-2xl font-bold text-gray-700">${stats.cliente}</p><p class="text-xs text-gray-400 mt-1">Clientes</p>
         </div>
     </div>
 
