@@ -1388,7 +1388,7 @@ function saveConfig() {
 /* ================================================================
    NUEVOS CLIENTES / LEADS VIEW
    ================================================================ */
-const leadsState = { page: 1, search: '', zonaFilter: '', tipoFilter: '', estadoFilter: '', sortCol: 'nombre', sortDir: 'asc', activeZona: null };
+const leadsState = { page: 1, search: '', zonaFilter: '', tipoFilter: '', estadoFilter: '', contactFilter: '', sortCol: 'nombre', sortDir: 'asc', activeZona: null };
 
 function renderLeads() {
     if (!leadsState.activeZona) {
@@ -1478,9 +1478,12 @@ function renderLeadsTable() {
     let data = getData('sh_leads') || [];
     const st = leadsState;
 
-    if (st.search) data = data.filter(l => (l.nombre + l.localidad + l.telefono + l.email).toLowerCase().includes(st.search.toLowerCase()));
+    if (st.search) data = data.filter(l => ((l.nombre||'') + (l.localidad||'') + (l.telefono||'') + (l.email||'') + (l.direccion||'')).toLowerCase().includes(st.search.toLowerCase()));
     if (st.tipoFilter) data = data.filter(l => l.tipo === st.tipoFilter);
     if (st.estadoFilter) data = data.filter(l => l.estado === st.estadoFilter);
+    if (st.contactFilter === 'email') data = data.filter(l => l.email);
+    else if (st.contactFilter === 'telefono') data = data.filter(l => l.telefono);
+    else if (st.contactFilter === 'web') data = data.filter(l => l.sitio_web);
     data = sortTable(data, st.sortCol, st.sortDir);
 
     const { items, totalPages, currentPage } = paginate(data, st.page, ITEMS_PER_PAGE);
@@ -1541,12 +1544,18 @@ function renderLeadsTable() {
     </div>
 
     <!-- Filters -->
-    <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-3">
+    <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-3 flex-wrap">
         <input type="text" placeholder="Buscar por nombre, localidad, telefono, email..." value="${st.search}" oninput="leadsState.search=this.value;leadsState.page=1;renderLeads()"
-            class="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary">
+            class="flex-1 min-w-[200px] border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary">
         <select onchange="leadsState.tipoFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
             <option value="">Todos los tipos</option>
             ${tipos.map(t => `<option value="${t}" ${st.tipoFilter === t ? 'selected' : ''}>${t}</option>`).join('')}
+        </select>
+        <select onchange="leadsState.contactFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <option value="" ${!st.contactFilter ? 'selected' : ''}>Todos los contactos</option>
+            <option value="email" ${st.contactFilter === 'email' ? 'selected' : ''}>Con Email</option>
+            <option value="telefono" ${st.contactFilter === 'telefono' ? 'selected' : ''}>Con Telefono</option>
+            <option value="web" ${st.contactFilter === 'web' ? 'selected' : ''}>Con Web</option>
         </select>
         <select onchange="leadsState.estadoFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
             <option value="" ${!st.estadoFilter ? 'selected' : ''}>Todos los estados</option>
