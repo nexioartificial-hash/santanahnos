@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santana Hnos. | Panel de Administración</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a5c2a',
+                        'primary-dark': '#0d3318',
+                        'primary-darker': '#0a2810',
+                        accent: '#b8c0c4',
+                        'accent-light': '#d4d8db',
+                        gold: '#c9a227',
+                        'gold-light': '#d4a928',
+                        'light-bg': '#f5f5f0',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+
+        .login-bg {
+            background: linear-gradient(135deg, #1a5c2a 0%, #0d3318 50%, #0a2810 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(184,192,196,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(184,192,196,0.03) 0%, transparent 40%),
+                radial-gradient(circle at 60% 80%, rgba(184,192,196,0.03) 0%, transparent 45%);
+            pointer-events: none;
+        }
+
+        .login-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L33 12 L40 12 L34.5 16.5 L36.5 24 L30 20 L23.5 24 L25.5 16.5 L20 12 L27 12 Z' fill='none' stroke='rgba(184,192,196,0.04)' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='rgba(184,192,196,0.03)' stroke-width='0.5'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-slide-up {
+            animation: fadeSlideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes shakeX {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+            20%, 40%, 60%, 80% { transform: translateX(6px); }
+        }
+
+        .animate-shake {
+            animation: shakeX 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes gearSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .gear-spin-slow {
+            animation: gearSpin 20s linear infinite;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(201, 162, 39, 0.15);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        .input-focus-ring:focus-within {
+            box-shadow: 0 0 0 3px rgba(26, 92, 42, 0.3);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a2810; }
+        ::-webkit-scrollbar-thumb { background: #1a5c2a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c9a227; }
+    </style>
+</head>
+<body class="login-bg min-h-screen flex items-center justify-center p-4">
+
+    <!-- Floating particles -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Login Card -->
+    <div id="login-card" class="relative z-10 w-full max-w-md animate-fade-slide-up">
+        <div class="bg-white/[0.97] backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/30 overflow-hidden">
+
+            <!-- Top accent bar -->
+            <div class="h-1.5 bg-gradient-to-r from-primary via-gold to-primary"></div>
+
+            <div class="px-8 pt-8 pb-10 sm:px-10">
+
+                <!-- Logo -->
+                <div class="flex justify-center mb-6">
+                    <div class="relative">
+                        <svg class="w-20 h-20 gear-spin-slow" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Gear outer shape -->
+                            <path d="M60 8 L65 18 L74 12 L73 23 L83 20 L78 30 L88 30 L80 38 L89 42 L79 47 L86 54 L76 55 L80 64 L70 61 L70 70 L62 65 L58 74 L54 65 L50 70 L50 61 L40 64 L44 55 L34 54 L41 47 L31 42 L40 38 L32 30 L42 30 L37 20 L47 23 L46 12 L55 18 L60 8Z"
+                                fill="#1a5c2a" stroke="#0d3318" stroke-width="1.5"/>
+                            <!-- Inner circle -->
+                            <circle cx="60" cy="42" r="22" fill="#0d3318" stroke="#c9a227" stroke-width="1.5"/>
+                        </svg>
+                        <!-- SH letters (static, not rotating) -->
+                        <div class="absolute inset-0 flex items-center justify-center" style="padding-bottom: 16px;">
+                            <span class="font-heading font-bold text-lg text-gold tracking-wider select-none">SH</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="text-center mb-8">
+                    <h1 class="font-heading font-bold text-2xl text-gray-800 tracking-tight">Santana Hnos.</h1>
+                    <p class="text-gray-500 text-sm mt-1 font-medium tracking-wide">Panel de Administración</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-5" autocomplete="off">
+
+                    <!-- Error message -->
+                    <div id="error-msg" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm animate-fade-in" role="alert">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                            <span id="error-text"></span>
+                        </div>
+                    </div>
+
+                    <!-- Usuario -->
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700 mb-1.5">Usuario</label>
+                        <div class="relative input-focus-ring rounded-lg transition-shadow duration-200">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                            <input type="text" id="username" name="username"
+                                class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-primary focus:bg-white transition-all duration-200"
+                                placeholder="Ingrese su usuario" required>
+                        </div>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Contraseña</label>
+                        <div class="relative input-focus-ring rounded-lg transition-shadow duration-200">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                </svg>
+                            </div>
+                            <input type="password" id="password" name="password"
+                                class="w-full pl-11 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:border-primary focus:bg-white transition-all duration-200"
+                                placeholder="Ingrese su contraseña" required>
+                            <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 transition-colors" tabindex="-1" aria-label="Mostrar contraseña">
+                                <!-- Eye open -->
+                                <svg id="eye-open" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                <!-- Eye closed -->
+                                <svg id="eye-closed" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L6.59 6.59m7.532 7.532l3.29 3.29M3 3l18 18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recordar sesión -->
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" name="remember"
+                            class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer accent-primary">
+                        <label for="remember" class="ml-2.5 text-sm text-gray-600 cursor-pointer select-none">Recordar sesión</label>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" id="login-btn"
+                        class="w-full py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-200 text-sm tracking-wide shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:active:scale-100 flex items-center justify-center gap-2">
+                        <span id="btn-text">Ingresar</span>
+                        <!-- Spinner -->
+                        <svg id="btn-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </form>
+
+                <!-- Footer text -->
+                <div class="mt-6 text-center">
+                    <p class="text-xs text-gray-400 flex items-center justify-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        Acceso exclusivo para personal autorizado
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to site link -->
+        <div class="text-center mt-6">
+            <a href="../index.html" class="text-white/50 hover:text-gold text-sm transition-colors duration-200 inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Volver al sitio
+            </a>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // --- Config ---
+        const CREDENTIALS = {
+            hector3744: { password: 'Hnos3744', role: 'admin', name: 'Héctor Santana' }
+        };
+        const MAX_ATTEMPTS = 3;
+        const LOCKOUT_SECONDS = 30;
+        const SESSION_KEY = 'sh_session';
+
+        // --- DOM ---
+        const form = document.getElementById('login-form');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('toggle-password');
+        const eyeOpen = document.getElementById('eye-open');
+        const eyeClosed = document.getElementById('eye-closed');
+        const rememberCheckbox = document.getElementById('remember');
+        const loginBtn = document.getElementById('login-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnSpinner = document.getElementById('btn-spinner');
+        const errorMsg = document.getElementById('error-msg');
+        const errorText = document.getElementById('error-text');
+        const loginCard = document.getElementById('login-card');
+
+        let failedAttempts = 0;
+        let isLockedOut = false;
+
+        // --- Check existing session ---
+        function checkSession() {
+            try {
+                const session = JSON.parse(localStorage.getItem(SESSION_KEY));
+                if (session && session.user && session.role) {
+                    // If "remember" was not checked, validate session is less than 24h old
+                    if (!session.remember) {
+                        const elapsed = Date.now() - session.loginTime;
+                        const twentyFourHours = 24 * 60 * 60 * 1000;
+                        if (elapsed > twentyFourHours) {
+                            localStorage.removeItem(SESSION_KEY);
+                            return;
+                        }
+                    }
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (e) {
+                localStorage.removeItem(SESSION_KEY);
+            }
+        }
+        checkSession();
+
+        // --- Password toggle ---
+        togglePassword.addEventListener('click', function() {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            eyeOpen.classList.toggle('hidden', !isPassword);
+            eyeClosed.classList.toggle('hidden', isPassword);
+        });
+
+        // --- Show error ---
+        function showError(message) {
+            errorText.textContent = message;
+            errorMsg.classList.remove('hidden');
+            errorMsg.classList.remove('animate-fade-in');
+            // Trigger reflow to restart animation
+            void errorMsg.offsetWidth;
+            errorMsg.classList.add('animate-fade-in');
+
+            // Shake the card
+            loginCard.classList.add('animate-shake');
+            setTimeout(() => loginCard.classList.remove('animate-shake'), 600);
+        }
+
+        function hideError() {
+            errorMsg.classList.add('hidden');
+        }
+
+        // --- Set loading state ---
+        function setLoading(loading) {
+            if (loading) {
+                btnText.textContent = 'Verificando...';
+                btnSpinner.classList.remove('hidden');
+                loginBtn.disabled = true;
+            } else {
+                btnText.textContent = 'Ingresar';
+                btnSpinner.classList.add('hidden');
+                if (!isLockedOut) {
+                    loginBtn.disabled = false;
+                }
+            }
+        }
+
+        // --- Lockout ---
+        function startLockout() {
+            isLockedOut = true;
+            loginBtn.disabled = true;
+            let remaining = LOCKOUT_SECONDS;
+
+            showError('Demasiados intentos fallidos. Contacte al administrador.');
+
+            const interval = setInterval(() => {
+                remaining--;
+                btnText.textContent = `Bloqueado (${remaining}s)`;
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    isLockedOut = false;
+                    failedAttempts = 0;
+                    loginBtn.disabled = false;
+                    btnText.textContent = 'Ingresar';
+                    hideError();
+                }
+            }, 1000);
+
+            btnText.textContent = `Bloqueado (${LOCKOUT_SECONDS}s)`;
+        }
+
+        // --- Form submit ---
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (isLockedOut) return;
+
+            hideError();
+
+            const user = usernameInput.value.trim().toLowerCase();
+            const pass = passwordInput.value;
+
+            if (!user || !pass) {
+                showError('Complete todos los campos.');
+                return;
+            }
+
+            setLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                const cred = CREDENTIALS[user];
+
+                if (cred && cred.password === pass) {
+                    // Success
+                    const session = {
+                        user: user,
+                        name: cred.name || user,
+                        role: cred.role,
+                        loginTime: Date.now(),
+                        remember: rememberCheckbox.checked
+                    };
+                    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+                    // Success animation
+                    btnText.textContent = '¡Bienvenido!';
+                    btnSpinner.classList.add('hidden');
+                    loginBtn.classList.remove('bg-primary', 'hover:bg-primary-dark');
+                    loginBtn.classList.add('bg-green-600');
+
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 600);
+                } else {
+                    // Failed
+                    failedAttempts++;
+                    setLoading(false);
+
+                    if (failedAttempts >= MAX_ATTEMPTS) {
+                        startLockout();
+                    } else {
+                        const remaining = MAX_ATTEMPTS - failedAttempts;
+                        showError(`Credenciales incorrectas. ${remaining === 1 ? 'Queda 1 intento.' : `Quedan ${remaining} intentos.`}`);
+                    }
+
+                    // Highlight fields
+                    usernameInput.classList.add('border-red-400');
+                    passwordInput.classList.add('border-red-400');
+                    setTimeout(() => {
+                        usernameInput.classList.remove('border-red-400');
+                        passwordInput.classList.remove('border-red-400');
+                    }, 2000);
+                }
+            }, 800);
+        });
+
+        // --- Clear error on input ---
+        usernameInput.addEventListener('input', hideError);
+        passwordInput.addEventListener('input', hideError);
+
+        // --- Floating particles ---
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = (60 + Math.random() * 40) + '%';
+                particle.style.width = (2 + Math.random() * 4) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animation = `floatParticle ${8 + Math.random() * 12}s linear ${Math.random() * 10}s infinite`;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // --- Enter key on username moves to password ---
+        usernameInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                passwordInput.focus();
+            }
+        });
+
+    })();
+    </script>
+</body>
+</html>

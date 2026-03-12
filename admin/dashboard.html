@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santana Hnos. | Dashboard</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a5c2a',
+                        'primary-dark': '#0d3318',
+                        gold: '#c9a227',
+                        'gold-light': '#d4af37',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ── Sidebar transitions ── */
+        #sidebar {
+            transition: width 0.3s ease;
+        }
+        /* Sidebar default: collapsed */
+        #sidebar {
+            width: 4rem;
+            transition: width 0.3s ease;
+        }
+        #sidebar:hover {
+            width: 16rem;
+        }
+        #sidebar .sidebar-text,
+        #sidebar .sidebar-logo-text {
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            opacity: 0;
+            display: none;
+        }
+        #sidebar:hover .sidebar-text,
+        #sidebar:hover .sidebar-logo-text {
+            opacity: 1;
+            display: inline;
+        }
+        #sidebar .sidebar-logo-img {
+            transition: height 0.3s ease;
+            height: 3rem;
+        }
+        #sidebar:hover .sidebar-logo-img {
+            height: 4rem;
+        }
+        #sidebar .sidebar-nav-item {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+            transition: all 0.2s ease;
+        }
+        #sidebar:hover .sidebar-nav-item {
+            justify-content: flex-start;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+        #sidebar .sidebar-bottom {
+            justify-content: center;
+        }
+        #sidebar:hover .sidebar-bottom {
+            justify-content: flex-start;
+        }
+
+        /* ── Active nav item ── */
+        .nav-item-active {
+            background-color: rgba(201, 162, 39, 0.15);
+            border-right: 3px solid #c9a227;
+            color: #d4af37;
+        }
+        .nav-item-active svg {
+            color: #d4af37;
+        }
+        .sidebar-nav-item:hover:not(.nav-item-active) {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ── Main content offset ── */
+        #main-wrapper {
+            margin-left: 4rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        #top-bar {
+            left: 4rem;
+            transition: left 0.3s ease;
+        }
+
+        /* ── Toast animations ── */
+        @keyframes toast-slide-in {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes toast-fade-out {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        .toast-enter {
+            animation: toast-slide-in 0.35s ease forwards;
+        }
+        .toast-exit {
+            animation: toast-fade-out 0.3s ease forwards;
+        }
+
+        /* ── Modal animations ── */
+        @keyframes modal-overlay-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes modal-card-in {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal-overlay-enter {
+            animation: modal-overlay-in 0.2s ease forwards;
+        }
+        .modal-card-enter {
+            animation: modal-card-in 0.25s ease forwards;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a5c2a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0d3318;
+        }
+
+        /* ── Table zebra striping ── */
+        table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        table tbody tr:hover {
+            background-color: #f0fdf4;
+        }
+
+        /* ── Badge pulse ── */
+        @keyframes badge-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        .badge-pulse {
+            animation: badge-pulse 2s ease-in-out infinite;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1023px) {
+            #sidebar {
+                transform: translateX(-100%);
+                z-index: 50;
+            }
+            #sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            #main-wrapper {
+                margin-left: 0 !important;
+            }
+            #top-bar {
+                left: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-body bg-[#f0f2f5] min-h-screen">
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- SIDEBAR                                                  -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-primary-dark flex flex-col z-50">
+
+        <!-- Logo -->
+        <div class="flex flex-col items-center py-5 border-b border-white/10">
+            <img src="../logo.png" alt="Santana Hnos." class="h-16 w-auto mb-2 sidebar-logo-img">
+            <span class="sidebar-logo-text font-heading font-bold text-white text-sm tracking-wide">Santana Hnos.</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 py-4 overflow-y-auto">
+            <ul class="space-y-1">
+                <!-- Dashboard -->
+                <li>
+                    <a href="#dashboard" id="nav-dashboard" data-section="dashboard" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z"/>
+                        </svg>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <!-- Productos / Stock -->
+                <li>
+                    <a href="#productos" id="nav-productos" data-section="productos" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>
+                        </svg>
+                        <span class="sidebar-text">Productos / Stock</span>
+                    </a>
+                </li>
+                <!-- Pedidos -->
+                <li>
+                    <a href="#pedidos" id="nav-pedidos" data-section="pedidos" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"/>
+                        </svg>
+                        <span class="sidebar-text">Pedidos</span>
+                    </a>
+                </li>
+                <!-- Clientes -->
+                <li>
+                    <a href="#clientes" id="nav-clientes" data-section="clientes" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+                        </svg>
+                        <span class="sidebar-text">Clientes</span>
+                    </a>
+                </li>
+                <!-- Producción -->
+                <li>
+                    <a href="#produccion" id="nav-produccion" data-section="produccion" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.049.58.025 1.193-.14 1.743"/>
+                        </svg>
+                        <span class="sidebar-text">Producción</span>
+                    </a>
+                </li>
+                <!-- Consultas Web -->
+                <li>
+                    <a href="#consultas" id="nav-consultas" data-section="consultas" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer relative">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                        </svg>
+                        <span class="sidebar-text">Consultas Web</span>
+                        <span id="sidebar-queries-badge" class="hidden absolute right-3 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center badge-pulse">0</span>
+                    </a>
+                </li>
+                <!-- Nuevos Clientes -->
+                <li>
+                    <a href="#leads" id="nav-leads" data-section="leads" class="sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
+                        </svg>
+                        <span class="sidebar-text">Nuevos Clientes</span>
+                    </a>
+                </li>
+                <!-- Usuarios (admin only) -->
+                <li>
+                    <a href="#usuarios" id="nav-usuarios" data-section="usuarios" class="admin-only sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/>
+                        </svg>
+                        <span class="sidebar-text">Usuarios</span>
+                    </a>
+                </li>
+                <!-- Configuración (admin only) -->
+                <li>
+                    <a href="#configuracion" id="nav-configuracion" data-section="configuracion" class="admin-only sidebar-nav-item flex items-center gap-3 px-5 py-3 text-white/80 text-sm font-medium transition-all duration-150 cursor-pointer">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                        <span class="sidebar-text">Configuración</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Bottom section -->
+        <div class="border-t border-white/10 p-4">
+            <!-- Logout -->
+            <button id="logout-btn" class="flex items-center gap-2 w-full px-2 py-2 mt-2 text-red-400 hover:text-red-300 text-sm font-medium transition-colors duration-150 rounded hover:bg-white/5 sidebar-bottom">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/>
+                </svg>
+                <span class="sidebar-text">Cerrar sesión</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- SIDEBAR OVERLAY (mobile)                                 -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- MAIN WRAPPER                                             -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="main-wrapper" class="min-h-screen">
+
+        <!-- ── Top Bar ── -->
+        <header id="top-bar" class="fixed top-0 right-0 left-64 h-16 bg-white shadow-sm z-30 flex items-center justify-between px-4 lg:px-6">
+
+            <!-- Left section -->
+            <div class="flex items-center gap-4">
+                <!-- Mobile hamburger -->
+                <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                    </svg>
+                </button>
+
+                <!-- Breadcrumb -->
+                <nav id="breadcrumb" class="hidden sm:flex items-center text-sm text-gray-500">
+                    <span class="text-gray-400">Admin</span>
+                    <svg class="w-4 h-4 mx-1 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                    <span class="text-gray-700 font-medium" id="breadcrumb-current">Dashboard</span>
+                </nav>
+            </div>
+
+            <!-- Center: search -->
+            <div class="flex-1 max-w-md mx-4 hidden md:block relative">
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+                    </svg>
+                    <input id="global-search" type="text" placeholder="Buscar productos, pedidos, clientes..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all">
+                </div>
+                <!-- Search results dropdown -->
+                <div id="search-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-80 overflow-y-auto z-50">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Right section -->
+            <div class="flex items-center gap-3">
+                <!-- Date/time -->
+                <div id="datetime-display" class="hidden lg:block text-xs text-gray-400 text-right leading-tight">
+                    <div id="datetime-date"></div>
+                    <div id="datetime-time" class="font-medium text-gray-500"></div>
+                </div>
+
+                <div class="w-px h-8 bg-gray-200 hidden lg:block"></div>
+
+                <!-- Notifications -->
+                <div class="relative">
+                    <button id="notif-bell" class="relative p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+                        </svg>
+                        <span id="notif-badge" class="hidden absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center badge-pulse">0</span>
+                    </button>
+                    <!-- Notification dropdown -->
+                    <div id="notif-dropdown" class="hidden absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                        <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="text-sm font-semibold text-gray-700">Notificaciones</h3>
+                            <button id="notif-mark-all" class="text-xs text-primary hover:underline">Marcar todas como leídas</button>
+                        </div>
+                        <div id="notif-list" class="max-h-64 overflow-y-auto divide-y divide-gray-50">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="px-4 py-2 border-t border-gray-100 text-center">
+                            <p id="notif-empty" class="text-xs text-gray-400 py-2">No hay notificaciones nuevas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-px h-8 bg-gray-200"></div>
+
+                <!-- User info -->
+                <div class="relative">
+                    <button id="user-menu-btn" class="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div id="user-avatar" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                            --
+                        </div>
+                        <div class="hidden sm:block text-left">
+                            <p id="user-name" class="text-sm font-medium text-gray-700 leading-tight">Usuario</p>
+                            <p id="user-role" class="text-xs text-gray-400 leading-tight">Rol</p>
+                        </div>
+                        <svg class="w-4 h-4 text-gray-400 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                        </svg>
+                    </button>
+                    <!-- User dropdown -->
+                    <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 py-1">
+                        <a href="#perfil" id="user-profile-link" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                            </svg>
+                            Mi Perfil
+                        </a>
+                        <hr class="my-1 border-gray-100">
+                        <button id="user-logout-btn" class="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/>
+                            </svg>
+                            Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ── Main Content ── -->
+        <main id="main-content" class="pt-28 min-h-screen bg-[#f0f2f5]">
+            <div class="p-6 lg:p-8">
+                <!-- Content injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- TOAST CONTAINER                                          -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+        <!-- Toasts injected by JS -->
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- DELETE CONFIRMATION MODAL                                -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/50 modal-overlay-enter" data-action="close-delete-modal"></div>
+        <!-- Card -->
+        <div class="relative bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 modal-card-enter">
+            <!-- Warning icon -->
+            <div class="w-14 h-14 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 text-center mb-1">¿Estás seguro de que querés eliminar este registro?</h3>
+            <p class="text-sm text-gray-500 text-center mb-6">Esta acción no se puede deshacer.</p>
+            <div class="flex gap-3">
+                <button data-action="close-delete-modal" class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">Cancelar</button>
+                <button id="delete-confirm-btn" class="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- GENERIC MODAL CONTAINER                                  -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div id="modal-container" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/50 modal-overlay-enter" data-action="close-modal"></div>
+        <!-- Card -->
+        <div id="modal-card" class="relative bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col modal-card-enter">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <h3 id="modal-title" class="text-lg font-semibold text-gray-800">Modal</h3>
+                <button data-action="close-modal" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Body -->
+            <div id="modal-body" class="px-6 py-4 overflow-y-auto flex-1">
+                <!-- Populated by JS -->
+            </div>
+            <!-- Footer -->
+            <div id="modal-footer" class="px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- SCRIPTS                                                  -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <script src="js/data.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/views.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

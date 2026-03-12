@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m http.server 8080)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/Noxi-PC/Desktop/santanahnos/**)",
+      "Bash(done)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/admin/index.html)",
+      "Bash(python -c \"import ast; [ast.parse\\(open\\(f''c:/Users/Noxi-PC/Desktop/santanahnos/scraper/{f}''\\).read\\(\\)\\) for f in [''config.py'',''scraper.py'',''parser.py'',''exporter.py'',''main.py'',''utils.py'']]; print\\(''All files parse OK''\\)\")",
+      "Bash(python -c \"import ast; [ast.parse\\(open\\(f''c:/Users/Noxi-PC/Desktop/santanahnos/scraper/{f}'', encoding=''utf-8''\\).read\\(\\)\\) for f in [''config.py'',''scraper.py'',''parser.py'',''exporter.py'',''main.py'',''utils.py'']]; print\\(''All files parse OK''\\)\")",
+      "Bash(pip install:*)",
+      "Bash(playwright install:*)",
+      "Bash(python main.py --zona \"Zona Oeste\")",
+      "Bash(pip --version)",
+      "Bash(python -m pip install playwright pandas openpyxl beautifulsoup4)",
+      "Bash(python main.py --zona \"Zona Oeste\" --no-headless)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

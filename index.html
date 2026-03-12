@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santana Hnos. | Rótulas y Extremos | Fábrica en Ituzaingó</title>
+    <meta name="description" content="Fábrica de rótulas, extremos de dirección y suspensión en Ituzaingó, Buenos Aires. Más de 30 años produciendo autopiezas de calidad 100% nacional. Distribución a todo el país.">
+    <meta name="keywords" content="rótulas, extremos de dirección, suspensión, autopiezas, fábrica Ituzaingó, Buenos Aires, repuestos automotor, Santana Hnos">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Santana Hnos. | Rótulas y Extremos | Fábrica en Ituzaingó">
+    <meta property="og:description" content="Más de 30 años fabricando rótulas y extremos de dirección y suspensión con calidad 100% nacional.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_AR">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a5c2a',
+                        'primary-dark': '#0d3318',
+                        'primary-darker': '#0a2810',
+                        accent: '#b8c0c4',
+                        'accent-light': '#d4d8db',
+                        gold: '#c9a227',
+                        'gold-light': '#d4a928',
+                        'light-bg': '#f5f5f0',
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; }
+
+        /* Metallic text effect */
+        .text-metallic {
+            background: linear-gradient(180deg, #ffffff 0%, #d4d8db 40%, #b8c0c4 60%, #8a9299 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        /* Hero background pattern */
+        .hero-bg {
+            background: linear-gradient(135deg, #1a5c2a 0%, #0d3318 50%, #0a2810 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(184,192,196,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(184,192,196,0.03) 0%, transparent 40%),
+                radial-gradient(circle at 60% 80%, rgba(184,192,196,0.03) 0%, transparent 45%);
+            pointer-events: none;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L33 12 L40 12 L34.5 16.5 L36.5 24 L30 20 L23.5 24 L25.5 16.5 L20 12 L27 12 Z' fill='none' stroke='rgba(184,192,196,0.04)' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='18' fill='none' stroke='rgba(184,192,196,0.03)' stroke-width='0.5'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Gear pattern for hero */
+        .gear-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 15 L65 25 L75 20 L72 32 L83 32 L76 42 L87 47 L78 54 L85 63 L74 63 L76 74 L66 69 L63 80 L57 80 L54 69 L44 74 L46 63 L35 63 L42 54 L33 47 L44 42 L37 32 L48 32 L45 20 L55 25 Z' fill='none' stroke='%23b8c0c4' stroke-width='1.5'/%3E%3Ccircle cx='60' cy='50' r='15' fill='none' stroke='%23b8c0c4' stroke-width='1.5'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.7s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+        }
+
+        /* Slide from left */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Slide from right */
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Scale up */
+        .scale-up {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .scale-up.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Flip in */
+        .flip-in {
+            opacity: 0;
+            transform: perspective(600px) rotateY(15deg);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .flip-in.visible {
+            opacity: 1;
+            transform: perspective(600px) rotateY(0deg);
+        }
+
+        /* Section reveal line */
+        .reveal-line {
+            position: relative;
+            overflow: hidden;
+        }
+        .reveal-line::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 80px;
+            height: 3px;
+            background: #c9a227;
+            transition: transform 0.6s ease-out 0.3s;
+        }
+        .reveal-line.visible::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Stagger children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.08s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.16s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.24s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(5) { transition-delay: 0.32s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(6) { transition-delay: 0.40s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(7) { transition-delay: 0.48s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(8) { transition-delay: 0.56s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(9) { transition-delay: 0.64s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(10) { transition-delay: 0.72s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(11) { transition-delay: 0.80s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(12) { transition-delay: 0.88s; opacity: 1; transform: translateY(0); }
+
+        /* Marquee carousel */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-container {
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+        .marquee-track {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+        .marquee-item {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 90px;
+            margin: 0 20px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            padding: 16px;
+        }
+        .marquee-item:hover {
+            border-color: #c9a227;
+            transform: scale(1.05);
+        }
+        .marquee-item svg {
+            max-width: 120px;
+            max-height: 50px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* WhatsApp pulse */
+        @keyframes pulse-wa {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        .wa-pulse { animation: pulse-wa 2s infinite; }
+
+        /* Counter animation */
+        .counter-value {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Card hover effects */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: #c9a227;
+        }
+
+        .brand-card {
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .brand-card:hover {
+            transform: translateY(-4px);
+            border-color: #c9a227;
+        }
+
+        /* Input focus */
+        input:focus, textarea:focus {
+            border-color: #c9a227 !important;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.3);
+        }
+
+        /* Navbar transition */
+        .navbar-transparent { background: transparent; }
+        .navbar-solid { background: rgba(13, 51, 24, 0.97); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.2); }
+
+        /* Parallax */
+        .parallax-hero {
+            will-change: transform;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a2810; }
+        ::-webkit-scrollbar-thumb { background: #1a5c2a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c9a227; }
+    </style>
+</head>
+<body class="bg-primary-darker text-white">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 navbar-transparent transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 md:h-24">
+                <!-- Logo -->
+                <a href="#hero" class="flex items-center gap-3 group">
+                    <img src="logo.png" alt="Santana Hnos. Logo" class="h-20 md:h-24 w-auto transition-transform duration-300 group-hover:rotate-6 drop-shadow-lg" />
+                    <div class="hidden sm:block">
+                        <span class="text-white font-heading font-bold text-lg leading-tight block">Santana Hnos.</span>
+                        <span class="text-accent text-xs tracking-widest uppercase">Rótulas y Extremos</span>
+                    </div>
+                </a>
+
+                <!-- Desktop nav -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#nosotros" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Nosotros</a>
+                    <a href="#productos" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Productos</a>
+                    <a href="#por-que-elegirnos" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Por Qué Elegirnos</a>
+                    <a href="#marcas" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Marcas</a>
+                    <a href="#contacto" class="text-white/80 hover:text-gold transition-colors text-sm font-medium">Contacto</a>
+                    <a href="https://wa.me/5491150515118?text=Hola%2C%20estoy%20buscando%20cotizaci%C3%B3n%20de%20r%C3%B3tulas%20y%20extremos.%20%C2%A1Muchas%20gracias!" target="_blank" class="bg-gold hover:bg-gold-light text-primary-darker font-semibold px-5 py-2 rounded-lg transition-all text-sm hover:shadow-lg hover:shadow-gold/20">
+                        WhatsApp
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="menu-toggle" class="md:hidden text-white p-2" aria-label="Abrir menú">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-primary-dark/98 backdrop-blur-md border-t border-white/10">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#nosotros" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Nosotros</a>
+                <a href="#productos" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Productos</a>
+                <a href="#por-que-elegirnos" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Por Qué Elegirnos</a>
+                <a href="#marcas" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Marcas</a>
+                <a href="#contacto" class="block text-white/80 hover:text-gold transition-colors py-2 text-sm">Contacto</a>
+                <a href="https://wa.me/5491150515118?text=Hola%2C%20estoy%20buscando%20cotizaci%C3%B3n%20de%20r%C3%B3tulas%20y%20extremos.%20%C2%A1Muchas%20gracias!" target="_blank" class="block bg-gold text-primary-darker font-semibold px-5 py-2.5 rounded-lg text-sm text-center mt-3">
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center relative overflow-hidden">
+        <!-- Background image -->
+        <div class="absolute inset-0">
+            <img src="hero-bg.jpg" alt="" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-darker/90 via-primary-dark/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="absolute inset-x-0 bottom-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-primary-darker"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 relative z-10">
+            <div class="max-w-3xl parallax-hero">
+                <h1 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-8 fade-in-up font-bold uppercase tracking-wide">
+                    <span class="text-metallic">Más de 30 años</span><br>
+                    <span class="text-white">fabricando precisión</span><br>
+                    <span class="text-white">para tu vehículo</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-gray-300/90 mb-10 max-w-2xl fade-in-up font-body font-light tracking-wide leading-relaxed" style="transition-delay: 0.15s;">
+                    Desde 1990, producimos y distribuimos rótulas y extremos de dirección y suspensión con calidad <span class="text-white font-medium">100% nacional</span>.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 fade-in-up" style="transition-delay: 0.3s;">
+                    <a href="#productos" class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-gold-light text-primary-darker font-heading font-bold px-8 py-4 rounded-lg text-lg transition-all hover:shadow-xl hover:shadow-gold/20 hover:-translate-y-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                        Consultá nuestro catálogo
+                    </a>
+                    <a href="https://wa.me/5491150515118?text=Hola%2C%20estoy%20buscando%20cotizaci%C3%B3n%20de%20r%C3%B3tulas%20y%20extremos.%20%C2%A1Muchas%20gracias!" target="_blank" class="inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-gold text-white hover:text-gold font-heading font-semibold px-8 py-4 rounded-lg text-lg transition-all hover:-translate-y-0.5">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Contactanos por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Quiénes Somos -->
+    <section id="nosotros" class="pt-32 md:pt-40 pb-20 md:pb-28 relative overflow-hidden scroll-mt-0">
+        <!-- Background image -->
+        <div class="absolute inset-0">
+            <img src="fabrica.jpg" alt="" class="w-full h-full object-cover object-center" />
+            <div class="absolute inset-0 bg-gradient-to-b from-primary-darker from-0% via-primary-darker/70 via-20% to-black/50"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl mx-auto text-center mb-16 scale-up">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-white mb-6">Quiénes Somos</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-gray-200 text-lg leading-relaxed">
+                    Somos <strong class="text-gold">Santana Hnos.</strong>, una empresa metalúrgica familiar fundada en <strong class="text-gold">1990</strong> en Ituzaingó, Buenos Aires. Nos dedicamos a la producción, fabricación y distribución de autopiezas para suspensión y dirección, abasteciendo a talleres mecánicos, casas de repuestos y distribuidores de todo el país.
+                </p>
+                <p class="text-gray-300 text-lg leading-relaxed mt-4">
+                    Con más de tres décadas de experiencia en el rubro, nos enorgullece ofrecer productos de <strong class="text-gold">fabricación 100% nacional</strong>, con los más altos estándares de calidad y precisión que el mercado automotor exige.
+                </p>
+            </div>
+
+            <!-- Counters -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 stagger-children">
+                <div class="text-center p-6">
+                    <div class="counter-value font-heading font-900 text-4xl md:text-5xl text-gold mb-2" data-target="30" data-prefix="+">0</div>
+                    <p class="text-gray-300 font-medium text-sm md:text-base">Años de experiencia</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="counter-value font-heading font-900 text-4xl md:text-5xl text-gold mb-2" data-target="10000" data-prefix="+">0</div>
+                    <p class="text-gray-300 font-medium text-sm md:text-base">Productos fabricados</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="counter-value font-heading font-900 text-4xl md:text-5xl text-gold mb-2" data-target="5000" data-prefix="+">0</div>
+                    <p class="text-gray-300 font-medium text-sm md:text-base">Clientes satisfechos</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="counter-value font-heading font-900 text-4xl md:text-5xl text-gold mb-2" data-target="100" data-suffix="%">0</div>
+                    <p class="text-gray-300 font-medium text-sm md:text-base">Fabricación nacional</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section id="productos" class="bg-primary py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 slide-in-left">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-metallic mb-6">Qué Fabricamos</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Producimos autopiezas de suspensión y dirección para una amplia variedad de marcas y modelos nacionales e importados.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 stagger-children">
+                <!-- Rótulas de dirección -->
+                <div class="product-card bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-5">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="#d4d8db" stroke-width="2">
+                            <circle cx="32" cy="20" r="10"/>
+                            <path d="M32 30 L32 58"/>
+                            <circle cx="32" cy="20" r="4" fill="#d4d8db" fill-opacity="0.3"/>
+                            <path d="M24 58 L40 58" stroke-linecap="round" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-3">Rótulas de Dirección</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Rótulas de alta resistencia para sistemas de dirección, fabricadas con aceros de primera calidad y tratamiento térmico controlado.</p>
+                </div>
+
+                <!-- Extremos de dirección -->
+                <div class="product-card bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-5">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="#d4d8db" stroke-width="2">
+                            <circle cx="16" cy="32" r="8"/>
+                            <circle cx="16" cy="32" r="3" fill="#d4d8db" fill-opacity="0.3"/>
+                            <path d="M24 32 L56 32" stroke-linecap="round"/>
+                            <path d="M50 26 L56 32 L50 38"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-3">Extremos de Dirección</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Extremos de dirección con precisión milimétrica que garantizan una respuesta segura y estable del volante.</p>
+                </div>
+
+                <!-- Terminales de dirección -->
+                <div class="product-card bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-5">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="#d4d8db" stroke-width="2">
+                            <circle cx="14" cy="32" r="7"/>
+                            <circle cx="14" cy="32" r="3" fill="#d4d8db" fill-opacity="0.3"/>
+                            <path d="M21 32 L44 32"/>
+                            <rect x="44" y="24" width="12" height="16" rx="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-3">Terminales de Dirección</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Terminales diseñados para conectar la barra de dirección con las ruedas, asegurando movimiento preciso y duradero.</p>
+                </div>
+
+                <!-- Brazos de suspensión -->
+                <div class="product-card bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-5">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="#d4d8db" stroke-width="2">
+                            <path d="M8 40 Q32 16 56 40" stroke-width="3"/>
+                            <circle cx="8" cy="40" r="5"/>
+                            <circle cx="56" cy="40" r="5"/>
+                            <circle cx="8" cy="40" r="2" fill="#d4d8db" fill-opacity="0.3"/>
+                            <circle cx="56" cy="40" r="2" fill="#d4d8db" fill-opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-3">Brazos de Suspensión</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Brazos de suspensión robustos que soportan las exigencias del andar diario en rutas y calles argentinas.</p>
+                </div>
+
+                <!-- Bujes de suspensión -->
+                <div class="product-card bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-5">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="#d4d8db" stroke-width="2">
+                            <circle cx="32" cy="32" r="18"/>
+                            <circle cx="32" cy="32" r="10"/>
+                            <circle cx="32" cy="32" r="4" fill="#d4d8db" fill-opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-3">Bujes de Suspensión</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Bujes de caucho y metal que absorben vibraciones y garantizan confort de marcha y durabilidad.</p>
+                </div>
+
+                <!-- Kits de reparación -->
+                <div class="product-card bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-5">
+                        <svg viewBox="0 0 64 64" fill="none" stroke="#d4d8db" stroke-width="2">
+                            <rect x="12" y="16" width="40" height="32" rx="4"/>
+                            <path d="M24 16 V10 Q24 8 26 8 L38 8 Q40 8 40 10 V16"/>
+                            <path d="M12 28 L52 28"/>
+                            <circle cx="32" cy="38" r="4" fill="#d4d8db" fill-opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-3">Kits de Reparación</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Kits completos con todos los componentes necesarios para reparar sistemas de dirección y suspensión de forma integral.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Por Qué Elegirnos -->
+    <section id="por-que-elegirnos" class="bg-light-bg py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 slide-in-right">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-primary mb-6">Por Qué Elegirnos</h2>
+                <div class="w-20 h-1 bg-gold mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto stagger-children">
+                <!-- Fabricación nacional -->
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 14h2v4H8zM14 14h2v4h-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-primary-dark mb-2">Fabricación 100% Nacional</h3>
+                    <p class="text-gray-600 text-sm">Todos nuestros productos son fabricados íntegramente en nuestra planta de Ituzaingó.</p>
+                </div>
+
+                <!-- Control de calidad -->
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-primary-dark mb-2">Control de Calidad Riguroso</h3>
+                    <p class="text-gray-600 text-sm">Cada pieza pasa por controles estrictos de dimensiones, resistencia y durabilidad.</p>
+                </div>
+
+                <!-- Experiencia -->
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-primary-dark mb-2">Más de 30 Años de Experiencia</h3>
+                    <p class="text-gray-600 text-sm">Desde 1990 perfeccionamos nuestros procesos y conocemos el mercado como nadie.</p>
+                </div>
+
+                <!-- Distribución -->
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H6.375c-.621 0-1.125-.504-1.125-1.125V14.25m0 0V5.625m0 8.625h10.5m0 0V5.625m0 8.625l3.375-3.375M3.75 7.5h10.5m0 0L17.625 4.125"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-primary-dark mb-2">Distribución a Todo el País</h3>
+                    <p class="text-gray-600 text-sm">Llegamos a cada rincón de Argentina con envíos rápidos y seguros.</p>
+                </div>
+
+                <!-- Stock permanente -->
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-primary-dark mb-2">Stock Permanente</h3>
+                    <p class="text-gray-600 text-sm">Amplio inventario disponible para entrega inmediata. No te dejamos sin repuestos.</p>
+                </div>
+
+                <!-- Fabricantes directos -->
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full bg-primary flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.384-3.114A2.25 2.25 0 004.5 14.043V17.5a2.25 2.25 0 002.036 2.24l5.384.614m-.42-5.184l5.384-3.114A2.25 2.25 0 0019.5 9.957V6.5a2.25 2.25 0 00-2.036-2.24L12.08 3.646m-.66 11.524V21m0-5.83V3.647"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-lg text-primary-dark mb-2">Fabricantes Directos</h3>
+                    <p class="text-gray-600 text-sm">Comprás directo de fábrica, sin intermediarios. Mejor precio y atención personalizada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marcas que Cubrimos -->
+    <section id="marcas" class="bg-primary-dark py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+            <div class="text-center flip-in">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-metallic mb-6">Marcas que Cubrimos</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Fabricamos piezas compatibles con las principales marcas del mercado automotor argentino.
+                </p>
+            </div>
+        </div>
+
+        <div class="w-full">
+            <div class="marquee-container fade-in">
+                <div class="marquee-track" id="marquee-track">
+                    <!-- Ford - Blue oval -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="60" cy="25" rx="56" ry="22" fill="#1a3f7a" stroke="#4a7abf" stroke-width="2"/>
+                            <text x="60" y="32" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-style="italic" font-size="22" letter-spacing="1">Ford</text>
+                        </svg>
+                    </div>
+                    <!-- Chevrolet - Golden bowtie -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 12 L42 12 L60 4 L78 12 L110 12 L110 38 L78 38 L60 46 L42 38 L10 38 Z" fill="#c8a84e" stroke="#a68a30" stroke-width="1.5"/>
+                            <path d="M14 15 L42 15 L60 8 L78 15 L106 15 L106 35 L78 35 L60 42 L42 35 L14 35 Z" fill="none" stroke="#fff" stroke-width="1" opacity="0.4"/>
+                        </svg>
+                    </div>
+                    <!-- Volkswagen - VW circle -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="36" fill="none" stroke="#1a3f7a" stroke-width="4"/>
+                            <circle cx="40" cy="40" r="32" fill="none" stroke="#4a7abf" stroke-width="2"/>
+                            <path d="M22 16 L32 40 L40 24 L48 40 L58 16" fill="none" stroke="#4a7abf" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M28 44 L34 58 L40 44 L46 58 L52 44" fill="none" stroke="#4a7abf" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <!-- Fiat - Red shield -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="4" width="100" height="42" rx="4" fill="#8b1a2b" stroke="#c43c4e" stroke-width="1.5"/>
+                            <line x1="10" y1="18" x2="110" y2="18" stroke="#c43c4e" stroke-width="1"/>
+                            <line x1="10" y1="32" x2="110" y2="32" stroke="#c43c4e" stroke-width="1"/>
+                            <text x="60" y="31" text-anchor="middle" fill="#ffffff" font-family="Montserrat, sans-serif" font-weight="700" font-size="18" letter-spacing="6">FIAT</text>
+                        </svg>
+                    </div>
+                    <!-- Renault - Diamond -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 70 80" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M35 4 L64 28 L64 52 L35 76 L6 52 L6 28 Z" fill="none" stroke="#f4c500" stroke-width="4"/>
+                            <path d="M35 14 L56 32 L56 48 L35 66 L14 48 L14 32 Z" fill="none" stroke="#f4c500" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <!-- Toyota - Three ovals -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="60" cy="30" rx="56" ry="26" fill="none" stroke="#c0c0c0" stroke-width="2.5"/>
+                            <ellipse cx="60" cy="30" rx="22" ry="16" fill="none" stroke="#c0c0c0" stroke-width="2.5"/>
+                            <ellipse cx="60" cy="30" rx="36" ry="10" fill="none" stroke="#c0c0c0" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <!-- Peugeot - Lion silhouette -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 6 C48 6 46 8 46 12 C44 10 40 8 38 10 C36 12 38 16 40 18 L36 22 C34 24 34 28 36 30 L32 34 C30 36 30 40 34 42 L42 44 L50 42 L52 36 L54 38 L56 44 L64 46 L70 42 C74 40 74 36 72 34 L68 30 C70 28 70 24 68 22 L64 18 C66 16 68 12 66 10 C64 8 60 10 58 12 C58 8 56 6 54 6 Z" fill="#c0c0c0" opacity="0.9"/>
+                            <text x="60" y="48" text-anchor="middle" fill="#d4d8db" font-family="Montserrat, sans-serif" font-weight="600" font-size="7" letter-spacing="3">PEUGEOT</text>
+                        </svg>
+                    </div>
+                    <!-- Citroën - Double chevron -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 80 70" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 10 L40 28 L64 10" fill="none" stroke="#c0c0c0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 28 L40 46 L64 28" fill="none" stroke="#c0c0c0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <text x="40" y="64" text-anchor="middle" fill="#d4d8db" font-family="Montserrat, sans-serif" font-weight="600" font-size="8" letter-spacing="2">CITROËN</text>
+                        </svg>
+                    </div>
+                    <!-- Honda - Wing H -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="6" width="104" height="38" rx="3" fill="none" stroke="#cc0000" stroke-width="2.5"/>
+                            <path d="M36 36 L36 14 C36 14 42 10 50 14 L50 22 L70 22 L70 14 C78 10 84 14 84 14 L84 36 C84 36 78 40 70 36 L70 28 L50 28 L50 36 C42 40 36 36 36 36 Z" fill="#cc0000"/>
+                        </svg>
+                    </div>
+                    <!-- Nissan -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="25" r="22" fill="none" stroke="#c0c0c0" stroke-width="3"/>
+                            <rect x="18" y="18" width="84" height="14" fill="#0d3318" stroke="#c0c0c0" stroke-width="2" rx="2"/>
+                            <text x="60" y="29" text-anchor="middle" fill="#c0c0c0" font-family="Montserrat, sans-serif" font-weight="700" font-size="10" letter-spacing="3">NISSAN</text>
+                        </svg>
+                    </div>
+                    <!-- Mercedes-Benz - Three-pointed star -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="34" fill="none" stroke="#c0c0c0" stroke-width="3"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#c0c0c0" stroke-width="1.5"/>
+                            <path d="M40 12 L48 52 L40 44 L32 52 Z" fill="#c0c0c0"/>
+                            <path d="M40 12 L16 56" stroke="#c0c0c0" stroke-width="2.5"/>
+                            <path d="M40 12 L64 56" stroke="#c0c0c0" stroke-width="2.5"/>
+                            <path d="M16 56 L64 56" stroke="#c0c0c0" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <!-- BMW - Quartered circle -->
+                    <div class="marquee-item">
+                        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="40" cy="40" r="36" fill="#1a1a1a" stroke="#c0c0c0" stroke-width="3"/>
+                            <circle cx="40" cy="40" r="28" fill="none" stroke="#c0c0c0" stroke-width="2"/>
+                            <path d="M40 12 A28 28 0 0 1 68 40 L40 40 Z" fill="#4a90d9"/>
+                            <path d="M12 40 A28 28 0 0 1 40 12 L40 40 Z" fill="#ffffff"/>
+                            <path d="M40 68 A28 28 0 0 1 12 40 L40 40 Z" fill="#4a90d9"/>
+                            <path d="M68 40 A28 28 0 0 1 40 68 L40 40 Z" fill="#ffffff"/>
+                            <text x="40" y="9" text-anchor="middle" fill="#c0c0c0" font-family="Montserrat, sans-serif" font-weight="700" font-size="7" letter-spacing="2">BMW</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zona de Cobertura -->
+    <section id="cobertura" class="bg-light-bg py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scale-up">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-primary mb-6">Zona de Cobertura</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-gray-700 text-lg max-w-2xl mx-auto">
+                    Nuestra fábrica está ubicada en <strong class="text-primary">Ituzaingó, Buenos Aires</strong>. Distribuimos en toda la Zona Oeste, AMBA y realizamos envíos a todo el país.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6 slide-in-left">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-primary-dark text-lg">Fábrica Central</h3>
+                            <p class="text-gray-600">Av. Int. Carlos Ratti 3744, B1744 Ituzaingó, Buenos Aires</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H6.375c-.621 0-1.125-.504-1.125-1.125V14.25"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-primary-dark text-lg">Zona Oeste y AMBA</h3>
+                            <p class="text-gray-600">Distribución directa con entrega rápida</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-primary-dark text-lg">Todo el País</h3>
+                            <p class="text-gray-600">Envíos a cualquier punto de Argentina por transporte</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl overflow-hidden shadow-lg slide-in-right">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3282.5!2d-58.6697!3d-34.6531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb0a3c9b1c7ed%3A0x1234567890abcdef!2sAv.+Int.+Carlos+Ratti+3744%2C+B1744+Ituzaing%C3%B3%2C+Provincia+de+Buenos+Aires!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar"
+                        width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        title="Ubicación Santana Hnos. en Ituzaingó"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="bg-primary py-20 md:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 slide-in-left">
+                <h2 class="font-heading font-800 text-3xl sm:text-4xl md:text-5xl text-metallic mb-6">Contacto</h2>
+                <div class="w-20 h-1 bg-gold mx-auto mb-8 rounded-full"></div>
+                <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                    Escribinos para consultas, cotizaciones o pedidos. Estamos para ayudarte.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Formulario -->
+                <div class="slide-in-left">
+                    <form id="contact-form" class="space-y-5">
+                        <div>
+                            <label for="nombre" class="block text-sm font-medium text-gray-300 mb-1">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre" autocapitalize="words" style="text-transform: capitalize;"
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 transition-all">
+                        </div>
+                        <div>
+                            <label for="telefono" class="block text-sm font-medium text-gray-300 mb-1">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" required placeholder="11 XXXX-XXXX" pattern="[0-9\s\-()+" maxlength="15"
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 transition-all">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="tu@email.com" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.com$" title="Ingresá un email válido que termine en .com"
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 transition-all">
+                        </div>
+                        <div>
+                            <label for="mensaje" class="block text-sm font-medium text-gray-300 mb-1">Mensaje</label>
+                            <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Contanos qué necesitás..." autocapitalize="sentences"
+                                class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 transition-all resize-none"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-gold hover:bg-gold-light text-primary-darker font-heading font-bold py-4 rounded-lg text-lg transition-all hover:shadow-lg hover:shadow-gold/20 hover:-translate-y-0.5">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Info de contacto -->
+                <div class="space-y-8 slide-in-right">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-white text-lg">Dirección</h3>
+                            <p class="text-gray-300">Av. Int. Carlos Ratti 3744, B1744 Ituzaingó, Buenos Aires</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-white text-lg">Teléfono</h3>
+                            <p class="text-gray-300">11 5051-5118</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-white text-lg">Email</h3>
+                            <p class="text-gray-300">santanahnos1@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-bold text-white text-lg">Horario</h3>
+                            <p class="text-gray-300">Lunes a Viernes: 8:00 a 17:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary-darker py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Logo y descripción -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="logo.png" alt="Santana Hnos. Logo" class="h-14 w-auto opacity-80" />
+                        <span class="font-heading font-bold text-accent-light text-xl">Santana Hnos.</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Fabricación nacional de rótulas y extremos de dirección y suspensión desde 1990. Calidad, experiencia y confianza en cada pieza.
+                    </p>
+                </div>
+
+                <!-- Navegación -->
+                <div>
+                    <h4 class="font-heading font-bold text-white mb-4">Navegación</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#hero" class="text-gray-400 hover:text-gold transition-colors text-sm">Inicio</a></li>
+                        <li><a href="#nosotros" class="text-gray-400 hover:text-gold transition-colors text-sm">Quiénes Somos</a></li>
+                        <li><a href="#productos" class="text-gray-400 hover:text-gold transition-colors text-sm">Productos</a></li>
+                        <li><a href="#por-que-elegirnos" class="text-gray-400 hover:text-gold transition-colors text-sm">Por Qué Elegirnos</a></li>
+                        <li><a href="#marcas" class="text-gray-400 hover:text-gold transition-colors text-sm">Marcas</a></li>
+                        <li><a href="#contacto" class="text-gray-400 hover:text-gold transition-colors text-sm">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto y redes -->
+                <div>
+                    <h4 class="font-heading font-bold text-white mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm mb-6">
+                        <li>Av. Int. Carlos Ratti 3744, B1744 Ituzaingó, Buenos Aires</li>
+                        <li>11 5051-5118</li>
+                        <li>santanahnos1@gmail.com</li>
+                    </ul>
+                    <div class="flex items-center gap-4">
+                        <!-- Instagram -->
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-accent hover:text-gold hover:border-gold transition-all" aria-label="Instagram">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="#" class="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-accent hover:text-gold hover:border-gold transition-all" aria-label="Facebook">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/5491150515118?text=Hola%2C%20estoy%20buscando%20cotizaci%C3%B3n%20de%20r%C3%B3tulas%20y%20extremos.%20%C2%A1Muchas%20gracias!" target="_blank" class="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-accent hover:text-gold hover:border-gold transition-all" aria-label="WhatsApp">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 Santana Hnos. - Rótulas y Extremos. Todos los derechos reservados.</p>
+                <p class="text-gray-600 text-xs mt-2">Fabricación nacional desde 1990 | Ituzaingó, Buenos Aires</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/5491150515118?text=Hola%2C%20estoy%20buscando%20cotizaci%C3%B3n%20de%20r%C3%B3tulas%20y%20extremos.%20%C2%A1Muchas%20gracias!" target="_blank"
+        class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl wa-pulse hover:scale-110 transition-transform group"
+        aria-label="Contactanos por WhatsApp">
+        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <!-- Tooltip -->
+        <span class="absolute right-20 bg-white text-gray-800 text-sm font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            Escribinos
+        </span>
+    </a>
+
+    <script>
+        // Duplicate marquee items for seamless loop
+        const marqueeTrack = document.getElementById('marquee-track');
+        if (marqueeTrack) {
+            const items = marqueeTrack.innerHTML;
+            marqueeTrack.innerHTML = items + items;
+        }
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('navbar-transparent');
+                navbar.classList.add('navbar-solid');
+            } else {
+                navbar.classList.remove('navbar-solid');
+                navbar.classList.add('navbar-transparent');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up, .fade-in, .slide-in-left, .slide-in-right, .scale-up, .flip-in, .stagger-children').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.dataset.target);
+                    const prefix = counter.dataset.prefix || '';
+                    const suffix = counter.dataset.suffix || '';
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = prefix + Math.floor(current).toLocaleString('es-AR') + suffix;
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = prefix + target.toLocaleString('es-AR') + suffix;
+                        }
+                    };
+
+                    updateCounter();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter-value').forEach(el => {
+            counterObserver.observe(el);
+        });
+
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.parallax-hero');
+            if (hero) {
+                const scrolled = window.scrollY;
+                hero.style.transform = `translateY(${scrolled * 0.15}px)`;
+            }
+        });
+
+        // Contact form → localStorage integration with admin panel
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = {
+                    id: 'CON-' + Date.now(),
+                    name: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('telefono').value,
+                    message: document.getElementById('mensaje').value,
+                    date: new Date().toISOString(),
+                    read: false
+                };
+                const queries = JSON.parse(localStorage.getItem('sh_queries') || '[]');
+                queries.unshift(query);
+                localStorage.setItem('sh_queries', JSON.stringify(queries));
+                contactForm.reset();
+                // Show success message
+                const btn = contactForm.querySelector('button[type="submit"]');
+                const originalText = btn.textContent;
+                btn.textContent = '¡Mensaje enviado con éxito!';
+                btn.classList.remove('bg-gold', 'hover:bg-gold-light');
+                btn.classList.add('bg-green-600');
+                btn.disabled = true;
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.add('bg-gold', 'hover:bg-gold-light');
+                    btn.classList.remove('bg-green-600');
+                    btn.disabled = false;
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
