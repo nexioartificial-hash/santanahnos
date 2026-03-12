@@ -1388,20 +1388,103 @@ function saveConfig() {
 /* ================================================================
    NUEVOS CLIENTES / LEADS VIEW
    ================================================================ */
-const leadsState = { page: 1, search: '', zonaFilter: '', tipoFilter: '', sortCol: 'nombre', sortDir: 'asc' };
+const leadsState = { page: 1, search: '', zonaFilter: '', tipoFilter: '', estadoFilter: '', sortCol: 'nombre', sortDir: 'asc', activeZona: null };
 
 function renderLeads() {
+    if (!leadsState.activeZona) {
+        renderLeadsFolders();
+    } else {
+        renderLeadsTable();
+    }
+}
+
+function renderLeadsFolders() {
+    const allLeads = getData('sh_leads') || [];
+    const oesteCount = allLeads.length;
+    const oestePhones = allLeads.filter(l => l.telefono).length;
+    const oesteEmails = allLeads.filter(l => l.email).length;
+
+    const folderSvg = `<svg class="w-12 h-12" fill="none" viewBox="0 0 48 48"><path d="M6 12a2 2 0 012-2h10l4 4h18a2 2 0 012 2v20a2 2 0 01-2 2H8a2 2 0 01-2-2V12z" fill="currentColor" opacity="0.15"/><path d="M6 12a2 2 0 012-2h10l4 4h18a2 2 0 012 2v20a2 2 0 01-2 2H8a2 2 0 01-2-2V12z" stroke="currentColor" stroke-width="2" fill="none"/></svg>`;
+    const lockSvg = `<svg class="w-4 h-4 text-gray-400 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>`;
+
+    mc().innerHTML = `
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-heading font-bold text-gray-800">Nuevos Clientes (Leads)</h1>
+            <p class="text-sm text-gray-500 mt-1">Seleccioná una zona para ver los leads</p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="importLeadsFromFile()" class="px-4 py-2 bg-gold text-white rounded-lg text-sm font-medium hover:bg-yellow-600">Importar JSON</button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Zona Oeste - Active -->
+        <div onclick="leadsState.activeZona='Zona Oeste';renderLeads()" class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-primary group">
+            <div class="p-6 text-center">
+                <div class="text-primary mb-3 flex justify-center">${folderSvg}</div>
+                <h3 class="font-heading font-bold text-lg text-gray-800 group-hover:text-primary transition-colors">Zona Oeste</h3>
+                <div class="mt-3 space-y-1">
+                    <p class="text-2xl font-bold text-primary">${oesteCount}</p>
+                    <p class="text-xs text-gray-500">leads</p>
+                </div>
+                <div class="mt-3 flex justify-center gap-3 text-xs text-gray-500">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span>${oestePhones} tel.</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span>${oesteEmails} email</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zona Sur - Proximamente -->
+        <div class="bg-white rounded-xl shadow-sm opacity-60 border-2 border-dashed border-gray-200">
+            <div class="p-6 text-center">
+                <div class="text-gray-300 mb-3 flex justify-center">${folderSvg}</div>
+                <h3 class="font-heading font-bold text-lg text-gray-400 flex items-center justify-center">Zona Sur ${lockSvg}</h3>
+                <div class="mt-4">
+                    <span class="inline-block px-3 py-1 bg-gray-100 text-gray-400 rounded-full text-xs font-medium">Proximamente</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zona Norte - Proximamente -->
+        <div class="bg-white rounded-xl shadow-sm opacity-60 border-2 border-dashed border-gray-200">
+            <div class="p-6 text-center">
+                <div class="text-gray-300 mb-3 flex justify-center">${folderSvg}</div>
+                <h3 class="font-heading font-bold text-lg text-gray-400 flex items-center justify-center">Zona Norte ${lockSvg}</h3>
+                <div class="mt-4">
+                    <span class="inline-block px-3 py-1 bg-gray-100 text-gray-400 rounded-full text-xs font-medium">Proximamente</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CABA - Proximamente -->
+        <div class="bg-white rounded-xl shadow-sm opacity-60 border-2 border-dashed border-gray-200">
+            <div class="p-6 text-center">
+                <div class="text-gray-300 mb-3 flex justify-center">${folderSvg}</div>
+                <h3 class="font-heading font-bold text-lg text-gray-400 flex items-center justify-center">CABA ${lockSvg}</h3>
+                <div class="mt-4">
+                    <span class="inline-block px-3 py-1 bg-gray-100 text-gray-400 rounded-full text-xs font-medium">Proximamente</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for JSON import -->
+    <input type="file" id="leads-file-input" accept=".json" class="hidden" onchange="handleLeadsFileImport(event)">
+    `;
+}
+
+function renderLeadsTable() {
     let data = getData('sh_leads') || [];
     const st = leadsState;
 
     if (st.search) data = data.filter(l => (l.nombre + l.localidad + l.telefono + l.email).toLowerCase().includes(st.search.toLowerCase()));
-    if (st.zonaFilter) data = data.filter(l => l.zona === st.zonaFilter);
     if (st.tipoFilter) data = data.filter(l => l.tipo === st.tipoFilter);
+    if (st.estadoFilter) data = data.filter(l => l.estado === st.estadoFilter);
     data = sortTable(data, st.sortCol, st.sortDir);
 
     const { items, totalPages, currentPage } = paginate(data, st.page, ITEMS_PER_PAGE);
     const allLeads = getData('sh_leads') || [];
-    const zonas = [...new Set(allLeads.map(l => l.zona).filter(Boolean))];
     const tipos = [...new Set(allLeads.map(l => l.tipo).filter(Boolean))];
 
     const stats = {
@@ -1416,8 +1499,16 @@ function renderLeads() {
 
     mc().innerHTML = `
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h1 class="text-2xl font-heading font-bold text-gray-800">Nuevos Clientes (Leads)</h1>
-        <div class="flex gap-2">
+        <div class="flex items-center gap-3">
+            <button onclick="leadsState.activeZona=null;renderLeads()" class="p-2 rounded-lg hover:bg-gray-200 transition-colors text-gray-500 hover:text-gray-700" title="Volver a zonas">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+            </button>
+            <div>
+                <h1 class="text-2xl font-heading font-bold text-gray-800">${st.activeZona}</h1>
+                <p class="text-sm text-gray-500">Nuevos Clientes (Leads)</p>
+            </div>
+        </div>
+        <div class="flex gap-2 flex-wrap">
             <button onclick="exportLeads()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Exportar CSV</button>
             <button onclick="importLeadsFromFile()" class="px-4 py-2 bg-gold text-white rounded-lg text-sm font-medium hover:bg-yellow-600">Importar JSON</button>
             <button onclick="newLead()" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-green-800">+ Agregar Lead</button>
@@ -1430,7 +1521,7 @@ function renderLeads() {
             <p class="text-xl font-bold text-gray-800">${stats.total}</p><p class="text-xs text-gray-500">Total</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-3 text-center">
-            <p class="text-xl font-bold text-green-600">${stats.conTelefono}</p><p class="text-xs text-gray-500">Con Teléfono</p>
+            <p class="text-xl font-bold text-green-600">${stats.conTelefono}</p><p class="text-xs text-gray-500">Con Telefono</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-3 text-center">
             <p class="text-xl font-bold text-blue-600">${stats.conEmail}</p><p class="text-xs text-gray-500">Con Email</p>
@@ -1451,22 +1542,18 @@ function renderLeads() {
 
     <!-- Filters -->
     <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row gap-3">
-        <input type="text" placeholder="Buscar por nombre, localidad, teléfono..." value="${st.search}" oninput="leadsState.search=this.value;leadsState.page=1;renderLeads()"
+        <input type="text" placeholder="Buscar por nombre, localidad, telefono, email..." value="${st.search}" oninput="leadsState.search=this.value;leadsState.page=1;renderLeads()"
             class="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary">
-        <select onchange="leadsState.zonaFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
-            <option value="">Todas las zonas</option>
-            ${zonas.map(z => `<option value="${z}" ${st.zonaFilter === z ? 'selected' : ''}>${z}</option>`).join('')}
-        </select>
         <select onchange="leadsState.tipoFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
             <option value="">Todos los tipos</option>
             ${tipos.map(t => `<option value="${t}" ${st.tipoFilter === t ? 'selected' : ''}>${t}</option>`).join('')}
         </select>
-        <select onchange="filterLeadsByEstado(this.value)" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
-            <option value="">Todos los estados</option>
-            <option value="nuevo">Nuevos</option>
-            <option value="contactado">Contactados</option>
-            <option value="cliente">Clientes</option>
-            <option value="descartado">Descartados</option>
+        <select onchange="leadsState.estadoFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <option value="" ${!st.estadoFilter ? 'selected' : ''}>Todos los estados</option>
+            <option value="nuevo" ${st.estadoFilter === 'nuevo' ? 'selected' : ''}>Nuevos</option>
+            <option value="contactado" ${st.estadoFilter === 'contactado' ? 'selected' : ''}>Contactados</option>
+            <option value="cliente" ${st.estadoFilter === 'cliente' ? 'selected' : ''}>Clientes</option>
+            <option value="descartado" ${st.estadoFilter === 'descartado' ? 'selected' : ''}>Descartados</option>
         </select>
     </div>
 
@@ -1478,9 +1565,8 @@ function renderLeads() {
                     <th class="px-4 py-3 text-left cursor-pointer hover:text-gray-700" onclick="sortLeads('nombre')">Nombre</th>
                     <th class="px-4 py-3 text-left">Tipo</th>
                     <th class="px-4 py-3 text-left">Localidad</th>
-                    <th class="px-4 py-3 text-left">Zona</th>
-                    <th class="px-4 py-3 text-left">Teléfono</th>
-                    <th class="px-4 py-3 text-left">WhatsApp</th>
+                    <th class="px-4 py-3 text-left">Telefono</th>
+                    <th class="px-4 py-3 text-left">Email</th>
                     <th class="px-4 py-3 text-center cursor-pointer hover:text-gray-700" onclick="sortLeads('rating')">Rating</th>
                     <th class="px-4 py-3 text-center">Estado</th>
                     <th class="px-4 py-3 text-center">Acciones</th>
@@ -1490,9 +1576,8 @@ function renderLeads() {
                         <td class="px-4 py-3 font-medium text-gray-800 max-w-[200px] truncate">${l.nombre || '-'}</td>
                         <td class="px-4 py-3 text-gray-600 text-xs">${l.tipo || '-'}</td>
                         <td class="px-4 py-3 text-gray-600">${l.localidad || '-'}</td>
-                        <td class="px-4 py-3">${l.zona ? statusBadge(l.zona) : '-'}</td>
                         <td class="px-4 py-3 text-gray-600">${l.telefono || '-'}</td>
-                        <td class="px-4 py-3">${l.whatsapp || l.celular ? `<a href="https://wa.me/${(l.whatsapp || l.celular).replace(/\D/g,'')}" target="_blank" class="text-green-600 hover:underline text-xs">${l.whatsapp || l.celular}</a>` : '-'}</td>
+                        <td class="px-4 py-3">${l.email ? `<a href="mailto:${l.email}" class="text-blue-600 hover:underline text-xs">${l.email}</a>` : '-'}</td>
                         <td class="px-4 py-3 text-center">${l.rating ? `<span class="text-yellow-500 font-medium">${l.rating} ★</span>` : '-'}</td>
                         <td class="px-4 py-3 text-center">
                             <select onchange="changeLeadEstado('${l.id}',this.value)" class="text-xs border rounded px-2 py-1 focus:outline-none">
@@ -1511,7 +1596,7 @@ function renderLeads() {
                             </button>
                         </td>
                     </tr>`).join('')}
-                    ${items.length === 0 ? '<tr><td colspan="9" class="px-4 py-8 text-center text-gray-400">No hay leads. Importá datos del scraper o agregá manualmente.</td></tr>' : ''}
+                    ${items.length === 0 ? '<tr><td colspan="8" class="px-4 py-8 text-center text-gray-400">No hay leads. Importa datos del scraper o agrega manualmente.</td></tr>' : ''}
                 </tbody>
             </table>
         </div>
