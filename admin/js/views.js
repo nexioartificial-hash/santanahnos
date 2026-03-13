@@ -1388,7 +1388,7 @@ function saveConfig() {
 /* ================================================================
    NUEVOS CLIENTES / LEADS VIEW
    ================================================================ */
-const leadsState = { page: 1, search: '', zonaFilter: '', tipoFilter: '', estadoFilter: '', contactFilter: '', sortCol: 'nombre', sortDir: 'asc', activeZona: null };
+const leadsState = { page: 1, search: '', zonaFilter: '', tipoFilter: '', estadoFilter: '', contactFilter: '', lineaFilter: '', sortCol: 'nombre', sortDir: 'asc', activeZona: null };
 
 function renderLeads() {
     if (!leadsState.activeZona) {
@@ -1484,6 +1484,7 @@ function renderLeadsTable() {
     if (st.contactFilter === 'email') data = data.filter(l => l.email);
     else if (st.contactFilter === 'telefono') data = data.filter(l => l.telefono);
     else if (st.contactFilter === 'web') data = data.filter(l => l.sitio_web);
+    if (st.lineaFilter) data = data.filter(l => l.tipo_linea === st.lineaFilter);
     data = sortTable(data, st.sortCol, st.sortDir);
 
     const { items, totalPages, currentPage } = paginate(data, st.page, ITEMS_PER_PAGE);
@@ -1557,6 +1558,11 @@ function renderLeadsTable() {
             <option value="telefono" ${st.contactFilter === 'telefono' ? 'selected' : ''}>Con Telefono</option>
             <option value="web" ${st.contactFilter === 'web' ? 'selected' : ''}>Con Web</option>
         </select>
+        <select onchange="leadsState.lineaFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <option value="" ${!st.lineaFilter ? 'selected' : ''}>Fijo y Celular</option>
+            <option value="fijo" ${st.lineaFilter === 'fijo' ? 'selected' : ''}>Solo Fijos</option>
+            <option value="celular" ${st.lineaFilter === 'celular' ? 'selected' : ''}>Solo Celulares</option>
+        </select>
         <select onchange="leadsState.estadoFilter=this.value;leadsState.page=1;renderLeads()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
             <option value="" ${!st.estadoFilter ? 'selected' : ''}>Todos los estados</option>
             <option value="nuevo" ${st.estadoFilter === 'nuevo' ? 'selected' : ''}>Nuevos</option>
@@ -1575,6 +1581,7 @@ function renderLeadsTable() {
                     <th class="px-4 py-3 text-left">Tipo</th>
                     <th class="px-4 py-3 text-left">Localidad</th>
                     <th class="px-4 py-3 text-left">Telefono</th>
+                    <th class="px-4 py-3 text-center">Linea</th>
                     <th class="px-4 py-3 text-left">Email</th>
                     <th class="px-4 py-3 text-center cursor-pointer hover:text-gray-700" onclick="sortLeads('rating')">Rating</th>
                     <th class="px-4 py-3 text-center">Estado</th>
@@ -1586,6 +1593,7 @@ function renderLeadsTable() {
                         <td class="px-4 py-3 text-gray-600 text-xs">${l.tipo || '-'}</td>
                         <td class="px-4 py-3 text-gray-600">${l.localidad || '-'}</td>
                         <td class="px-4 py-3 text-gray-600">${l.telefono || '-'}</td>
+                        <td class="px-4 py-3 text-center">${l.tipo_linea === 'celular' ? '<span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs font-medium">Celular</span>' : l.tipo_linea === 'fijo' ? '<span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">Fijo</span>' : '-'}</td>
                         <td class="px-4 py-3">${l.email ? `<a href="mailto:${l.email}" class="text-blue-600 hover:underline text-xs">${l.email}</a>` : '-'}</td>
                         <td class="px-4 py-3 text-center">${l.rating ? `<span class="text-yellow-500 font-medium">${l.rating} ★</span>` : '-'}</td>
                         <td class="px-4 py-3 text-center">
@@ -1605,7 +1613,7 @@ function renderLeadsTable() {
                             </button>
                         </td>
                     </tr>`).join('')}
-                    ${items.length === 0 ? '<tr><td colspan="8" class="px-4 py-8 text-center text-gray-400">No hay leads. Importa datos del scraper o agrega manualmente.</td></tr>' : ''}
+                    ${items.length === 0 ? '<tr><td colspan="9" class="px-4 py-8 text-center text-gray-400">No hay leads. Importa datos del scraper o agrega manualmente.</td></tr>' : ''}
                 </tbody>
             </table>
         </div>
@@ -1784,6 +1792,9 @@ function handleLeadsFileImport(event) {
                     cantidad_resenas: c.reputacion?.cantidad_resenas || '',
                     estado: c.estado_comercial || 'nuevo',
                     notas: c.notas || '',
+                    tipo_linea: c.tipo_linea || '',
+                    whatsapp_probable: c.whatsapp_probable || false,
+                    link_whatsapp: c.link_whatsapp || '',
                     categoria: '', horarios: '',
                     fecha_scraping: json.metadata?.fecha_scraping || new Date().toISOString()
                 }));
