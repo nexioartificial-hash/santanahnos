@@ -1672,11 +1672,12 @@ function _classifyPhoneAR(raw) {
     if (d.length === 12 && d.substring(2, 4) === '15') { has15 = true; d = d.substring(0,2) + d.substring(4); }
     else if (d.startsWith('15') && d.length === 10) { has15 = true; d = '11' + d.substring(2); }
     if (had9 || has15) return 'celular';
-    // For area code 11 (AMBA): subscriber digits starting with 2,3,6 = celular
-    // (Google Maps gives numbers without 15, e.g. 011 6036-7483 is a cell phone)
+    // For area code 11 (AMBA): only 4XXX-XXXX subscribers are reliably fijo (landline).
+    // All other ranges (2,3,5,6,7,8) are cell phones — Google Maps strips the 15 prefix.
     if (d.length === 10 && d.substring(0,2) === '11') {
         var first = d.charAt(2);
-        if (first === '2' || first === '3' || first === '6') return 'celular';
+        if (first === '4') return 'fijo';
+        return 'celular';
     }
     return 'fijo';
 }
