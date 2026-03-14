@@ -1813,9 +1813,33 @@ function handleLeadsFileImport(event) {
         try {
             const json = JSON.parse(e.target.result);
             let imported = [];
-            // Support both formats: array or {clientes_potenciales: [...]}
+            // Support formats: flat array (scraper), {clientes_potenciales: [...]}
             if (Array.isArray(json)) {
-                imported = json;
+                imported = json.map(c => ({
+                    id: c.id || generateId('LEAD'),
+                    nombre: c.nombre || '',
+                    tipo: c.tipo || c.categoria_google || '',
+                    localidad: c.localidad || '',
+                    partido: c.partido || '',
+                    zona: c.zona || '',
+                    direccion: c.direccion || '',
+                    telefono: c.telefono || '',
+                    celular: c.celular_whatsapp || c.celular || '',
+                    whatsapp: c.whatsapp || c.celular_whatsapp || '',
+                    email: c.email || '',
+                    sitio_web: c.sitio_web || '',
+                    instagram: c.instagram || '',
+                    facebook: c.facebook || '',
+                    google_maps_url: c.google_maps_url || '',
+                    rating: c.rating || '',
+                    cantidad_resenas: c.cantidad_resenas || '',
+                    estado: c.estado || 'nuevo',
+                    notas: c.notas || '',
+                    tipo_linea: c.tipo_linea || '',
+                    categoria: c.categoria_google || '',
+                    horarios: c.horarios || '',
+                    fecha_scraping: c.fecha_scraping || new Date().toISOString()
+                }));
             } else if (json.clientes_potenciales) {
                 imported = json.clientes_potenciales.map(c => ({
                     id: c.id || generateId('LEAD'),
