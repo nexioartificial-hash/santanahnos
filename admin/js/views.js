@@ -1513,6 +1513,7 @@ function renderLeadsTable() {
             </div>
         </div>
         <div class="flex gap-2 flex-wrap">
+            <button onclick="reclassifyAllLeads()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50" title="Reclasificar telefonos como fijo/celular">Clasificar Lineas</button>
             <button onclick="exportLeads()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Exportar CSV</button>
             <button onclick="importLeadsFromFile()" class="px-4 py-2 bg-gold text-white rounded-lg text-sm font-medium hover:bg-yellow-600">Importar JSON</button>
             <button onclick="newLead()" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-green-800">+ Agregar Lead</button>
@@ -1632,9 +1633,46 @@ function sortLeads(col) {
     renderLeads();
 }
 function filterLeadsByEstado(val) {
-    // Re-filter using a temporary state
     leadsState.estadoFilter = val;
     renderLeads();
+}
+
+function reclassifyAllLeads() {
+    var leads = getData('sh_leads') || [];
+    var updated = 0;
+    leads.forEach(function(l) {
+        if (l.telefono) {
+            var tipo = _classifyPhoneAR(l.telefono);
+            if (tipo !== l.tipo_linea) { l.tipo_linea = tipo; updated++; }
+        }
+    });
+    setData('sh_leads', leads);
+    showToast(updated + ' leads reclasificados');
+    renderLeads();
+}
+
+function _classifyPhoneAR(raw) {
+    // Classify Argentine phone number as 'fijo' or 'celular'
+    if (!raw) return '';
+    var s = String(raw).replace(/[^0-9+]/g, '');
+    var hasPlus = s.startsWith('+');
+    var d = s.replace(/\D/g, '');
+    if (!d || d.length < 6) return '';
+    // Remove country code
+    if (hasPlus && d.startsWith('54')) d = d.substring(2);
+    else if (d.startsWith('0054')) d = d.substring(4);
+    else if (!hasPlus && d.startsWith('54') && d.length > 12) d = d.substring(2);
+    // Detect mobile 9 prefix (international)
+    var had9 = false;
+    if (d.startsWith('9') && d.length === 11) { d = d.substring(1); had9 = true; }
+    // Remove trunk 0
+    if (d.startsWith('0')) d = d.substring(1);
+    // Detect 15 mobile prefix
+    var has15 = false;
+    if (d.length === 12 && d.substring(2, 4) === '15') { has15 = true; }
+    else if (d.startsWith('15') && d.length === 10) { has15 = true; }
+    if (had9 || has15) return 'celular';
+    return 'fijo';
 }
 
 function changeLeadEstado(id, estado) {
@@ -1806,6 +1844,10 @@ function handleLeadsFileImport(event) {
             imported.forEach(lead => {
                 if (!lead.id) lead.id = generateId('LEAD');
                 if (!lead.estado) lead.estado = 'nuevo';
+                // Auto-classify phone line type if not already set
+                if (!lead.tipo_linea && lead.telefono) {
+                    lead.tipo_linea = _classifyPhoneAR(lead.telefono);
+                }
                 if (!existingNames.has(lead.nombre?.toLowerCase())) {
                     existing.push(lead);
                     existingNames.add(lead.nombre?.toLowerCase());
