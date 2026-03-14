@@ -235,11 +235,13 @@ def normalize(raw: str, default_area: str = '11') -> dict:
     result['codigo_area'] = area_code
     is_mobile = has_fifteen or had_nine
 
-    # Si no se detecto 15 ni 9, usar heuristicas para area 11
-    if not is_mobile and area_code == '11':
-        # En AMBA, numeros que empiezan con 15XX despues del area son celulares
-        # Pero ya removimos el 15. Sin indicador, asumir fijo
-        pass
+    # Si no se detecto 15 ni 9, usar heuristicas por rango de subscriber
+    # Para area 11 (AMBA): subscriber que empieza con 2, 3, 6 = celular
+    # (Google Maps da numeros sin 15, ej: 011 6036-7483 es celular)
+    if not is_mobile and area_code == '11' and subscriber:
+        first_digit = subscriber[0]
+        if first_digit in ('2', '3', '6'):
+            is_mobile = True
 
     result['es_celular'] = is_mobile
     result['tipo'] = 'celular' if is_mobile else 'fijo'

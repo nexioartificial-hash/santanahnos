@@ -1669,9 +1669,15 @@ function _classifyPhoneAR(raw) {
     if (d.startsWith('0')) d = d.substring(1);
     // Detect 15 mobile prefix
     var has15 = false;
-    if (d.length === 12 && d.substring(2, 4) === '15') { has15 = true; }
-    else if (d.startsWith('15') && d.length === 10) { has15 = true; }
+    if (d.length === 12 && d.substring(2, 4) === '15') { has15 = true; d = d.substring(0,2) + d.substring(4); }
+    else if (d.startsWith('15') && d.length === 10) { has15 = true; d = '11' + d.substring(2); }
     if (had9 || has15) return 'celular';
+    // For area code 11 (AMBA): subscriber digits starting with 2,3,6 = celular
+    // (Google Maps gives numbers without 15, e.g. 011 6036-7483 is a cell phone)
+    if (d.length === 10 && d.substring(0,2) === '11') {
+        var first = d.charAt(2);
+        if (first === '2' || first === '3' || first === '6') return 'celular';
+    }
     return 'fijo';
 }
 
